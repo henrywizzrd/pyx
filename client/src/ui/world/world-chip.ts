@@ -1,9 +1,9 @@
-// Chip do Habblaud World na barra do topo, ao lado da versão: "🏙️ no mundo" com o prédio aceso, "⏸ pausado",
+// Chip do PYX World na barra do topo, ao lado da versão: "🏙️ no mundo" com o prédio aceso, "⏸ pausado",
 // "reconectando…" quando a conexão caiu e "⚠️ parado" quando o servidor do mundo parou o prédio. Só com
 // `meta.world.building` (conta aprovada; fora do mundo, nada) e nunca no celular pela porta remota (worldChipState).
-// Um clique abre a janela do Habblaud World, onde estão o cartão "Seu prédio", a pausa e o motivo de uma parada.
+// Um clique abre a janela do PYX World, onde estão o cartão "Seu prédio", a pausa e o motivo de uma parada.
 // Com gente visitando o prédio, "👀 N" ao lado; o primeiro visitante de cada conexão ainda dá o aviso "Alguém entrou
-// no seu prédio" (desligável na janela do Habblaud World).
+// no seu prédio" (desligável na janela do PYX World).
 // Fase 5: com o prédio aceso, "❤️ 3 hoje" (os likes que o prédio recebeu hoje), que pula quando chega um novo.
 import type { Notice } from '../../../../shared/types';
 import { tr } from '../../../../shared/i18n';
@@ -47,7 +47,7 @@ export class WorldChip implements UiComponent {
     const count = state ? meta?.building?.visitors : undefined;
     const next = nextVisitorAlert(this.alert, count, this.ctx.prefs.worldVisitNotify);
     this.alert = next.state;
-    if (next.notify) this.notify?.({ id: `world-visit-${++this.alertSeq}`, level: 'info', text: `👀 ${tr('Alguém entrou no seu prédio no Habblaud World.')}`, at: Date.now() });
+    if (next.notify) this.notify?.({ id: `world-visit-${++this.alertSeq}`, level: 'info', text: `👀 ${tr('Alguém entrou no seu prédio no PYX World.')}`, at: Date.now() });
     setHidden(this.el, !state);
     setHidden(this.visitors, !count);
     setText(this.visitors, count ? `👀 ${count}` : '');
@@ -56,10 +56,10 @@ export class WorldChip implements UiComponent {
     setVariant(this.el, 'is-', state);
     setText(this.icon, ICON[state]);
     const texts: Record<WorldChipState, [text: string, title: string]> = {
-      live: [tr('no mundo'), tr('Seu prédio está aceso no Habblaud World: {0} e {1}. Clique para abrir o Habblaud World.', [floorsText(b?.floors ?? 0), agentsText(b?.agents ?? 0)])],
+      live: [tr('no mundo'), tr('Seu prédio está aceso no PYX World: {0} e {1}. Clique para abrir o PYX World.', [floorsText(b?.floors ?? 0), agentsText(b?.agents ?? 0)])],
       paused: [tr('pausado'), tr('Pausado: seu prédio está apagado, mas você pode andar pela cidade. Nada do escritório sai deste computador; clique para retomar.')],
-      reconnecting: [tr('reconectando…'), tr('Sem conexão com o Habblaud World agora; o Habblaud tenta de novo sozinho. Clique para ver o seu prédio.')],
-      stopped: [tr('parado'), tr('Seu prédio parou de subir ao Habblaud World. Clique para ver o motivo.')],
+      reconnecting: [tr('reconectando…'), tr('Sem conexão com o PYX World agora; o PYX tenta de novo sozinho. Clique para ver o seu prédio.')],
+      stopped: [tr('parado'), tr('Seu prédio parou de subir ao PYX World. Clique para ver o motivo.')],
     };
     const [text, base] = texts[state];
     const title = count ? `${base} ${visitorsText(count)}.` : base;

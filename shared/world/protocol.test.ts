@@ -1,5 +1,5 @@
 // O exemplo da seção 3.3 do plano (docs/world/privacidade.md) contra o schema.json, com um validador mínimo próprio (o
-// Habblaud não tem dependências de runtime nem o Ajv; o servidor do mundo valida o mesmo arquivo com o Ajv), e as listas
+// PYX não tem dependências de runtime nem o Ajv; o servidor do mundo valida o mesmo arquivo com o Ajv), e as listas
 // do protocolo conferidas contra o resto do código.
 import { describe, expect, it } from 'vitest';
 import * as appearance from '../appearance';
@@ -255,7 +255,7 @@ describe('listas do protocolo', () => {
     // O pedido de exclusão e o arquivo "Baixar meus dados" (WorldExport) também são do protocolo.
     const del: DeleteConfirmRequest = { code: '123456' };
     expect(del.code).toHaveLength(6);
-    const exp: Pick<WorldExport, 'format' | 'version'> = { format: 'habblaud-world-export', version: 1 };
+    const exp: Pick<WorldExport, 'format' | 'version'> = { format: 'pyx-world-export', version: 1 };
     expect(exp.version).toBe(1);
   });
 });

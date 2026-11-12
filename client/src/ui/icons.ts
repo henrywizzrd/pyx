@@ -299,7 +299,7 @@ export const ICONS = {
   chevronDown: pixelIcon(['#......#', '##....##', '.##..##.', '..####..', '...##...']),
   chevronUp: pixelIcon(['...##...', '..####..', '.##..##.', '##....##', '#......#']),
   arrowDown: pixelIcon(['...##...', '...##...', '...##...', '#######.', '.#####..', '..###...', '...#....'].map((r) => r.padEnd(8, '.'))),
-  /** Cidade do Habblaud World (botão Mundo): prédios de alturas diferentes. */
+  /** Cidade do PYX World (botão Mundo): prédios de alturas diferentes. */
   city: pixelIcon(['......##..', '..##..##..', '..##.####.', '####.#..#.', '#..#.####.', '####.#..#.', '#..#.####.', '####.#..#.', '##########']),
   /** O escritório (botão de volta da cidade): um prédio com porta. */
   office: pixelIcon(['..######..', '..#.##.#..', '..######..', '..#.##.#..', '..######..', '..#.##.#..', '..##..##..', '..##..##..', '##########']),
@@ -307,7 +307,7 @@ export const ICONS = {
 
 export type IconKey = keyof typeof ICONS;
 
-/** Marca do Habblaud em pixels (usada quando /assets/brand/logo-mark.png não existe): prédio com janelas acesas. */
+/** Marca do PYX em pixels (usada quando /assets/brand/logo-mark.png não existe): prédio com janelas acesas. */
 export const FALLBACK_MARK = pixelIcon(
   [
     '.....######.....',
@@ -330,7 +330,7 @@ export const FALLBACK_MARK = pixelIcon(
 );
 
 /**
- * Logotipo "Habblaud" em pixels, com a mesma fonte bitmap da placa da marca (assets/brand/signage.png, gerada por
+ * Logotipo "PYX" em pixels, com a mesma fonte bitmap da placa da marca (assets/brand/signage.png, gerada por
  * scripts/assets/pixelart.py): a Pixelify Sans não fica nítida nesse tamanho.
  * c = "Hab" (creme), t = "blaud" (âmbar), s = sombra de 1 px.
  */

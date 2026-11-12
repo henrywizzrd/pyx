@@ -1,0 +1,4 @@
+{
+  "description": "Módulo de hooks do mod do PYX (uso do plano, aviso embaixo do prompt e /pyx)",
+  "modules": ["./register.ts"]
+}

@@ -1,4 +1,4 @@
-// Regras do nome de jogador do Habblaud World (contrato da Fase 1, seção 1). O Habblaud confere antes de mandar, para
+// Regras do nome de jogador do PYX World (contrato da Fase 1, seção 1). O PYX confere antes de mandar, para
 // avisar na hora; quem decide é o servidor do mundo, que aplica as mesmas regras e mais a lista de palavras bloqueadas
 // (que fica só lá). Só importa ./protocol: pode ser copiado para o servidor do mundo como está. Puro: sem Node nem DOM.
 //

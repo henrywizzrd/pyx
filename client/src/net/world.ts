@@ -1,4 +1,4 @@
-// Habblaud World no navegador: o cliente das rotas locais /api/world/* (o servidor local do Habblaud fala com o
+// PYX World no navegador: o cliente das rotas locais /api/world/* (o servidor local do PYX fala com o
 // servidor do mundo; o token do dispositivo nunca chega ao navegador) e um FakeWorldApi para o modo demonstração
 // (?mock=1&world=...) e para os testes. Erros chegam como `{error: {code}}`; a interface traduz o código
 // (ui/world/world-model.ts) e nunca mostra o `message` do servidor.
@@ -99,7 +99,7 @@ export interface WorldStatus {
   building?: WorldBuildingStatus;
   /** Tema guardado para o prédio (PUT /api/world/theme); ausente = 'auto'. */
   theme?: WorldThemeChoice;
-  /** Quem a conta bloqueou (Fase 5): Configurações › Habblaud World › Bloqueados. */
+  /** Quem a conta bloqueou (Fase 5): Configurações › PYX World › Bloqueados. */
   blocked?: WorldBlockedPlayer[];
 }
 
@@ -114,7 +114,7 @@ export interface WorldCharacterInput {
 
 /**
  * Códigos que a interface traduz: os do servidor do mundo e os do servidor local (shared/world/), mais dois só dela:
- * `offline` (o Habblaud local não respondeu) e `forbidden` (403 sem código: a guarda de origem recusou a página).
+ * `offline` (o PYX local não respondeu) e `forbidden` (403 sem código: a guarda de origem recusou a página).
  */
 export const WORLD_UI_ERROR_CODES = [...WORLD_KNOWN_ERROR_CODES, 'offline', 'forbidden'] as const;
 export type WorldErrorCode = WorldKnownErrorCode | 'offline' | 'forbidden';
@@ -221,7 +221,7 @@ export function parseBuildingMeta(v: unknown): WorldBuildingMeta | undefined {
   if (v.left === true) b.left = true;
   if (v.stopped === true) b.stopped = true;
   if (typeof v.visitors === 'number' && Number.isInteger(v.visitors) && v.visitors >= 0) b.visitors = Math.min(v.visitors, 999);
-  // Fase 5: likes do dia, batidas desde que o Habblaud abriu e se há um resumo não visto.
+  // Fase 5: likes do dia, batidas desde que o PYX abriu e se há um resumo não visto.
   if (typeof v.likesToday === 'number' && Number.isInteger(v.likesToday) && v.likesToday >= 0) b.likesToday = v.likesToday;
   if (count(v.knocks) > 0) b.knocks = count(v.knocks);
   if (v.awaySummary === true) b.awaySummary = true;
@@ -1111,7 +1111,7 @@ export class FakeWorldApi implements WorldClient {
       if (acc.exports > 1) return FakeWorldApi.fail('rate_limited', 429);
       // O formato de WorldExport (protocol.ts), só com dados de mentira.
       const data = {
-        format: 'habblaud-world-export',
+        format: 'pyx-world-export',
         version: 1,
         exportedAt: new Date(this.now()).toISOString(),
         account: { email: acc.email, access: acc.access, notifyInactivity: acc.player?.visibility.notifyInactivity !== false },

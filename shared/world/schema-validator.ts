@@ -1,4 +1,4 @@
-// Validador mínimo de JSON Schema, para os testes conferirem pacotes contra shared/world/schema.json (o Habblaud não tem
+// Validador mínimo de JSON Schema, para os testes conferirem pacotes contra shared/world/schema.json (o PYX não tem
 // dependências de runtime nem o Ajv; o servidor do mundo valida o mesmo arquivo com o Ajv). Só as palavras-chave que o
 // schema.json usa: qualquer outra derruba quem chamou, para nenhuma regra ser ignorada em silêncio. Usado só por testes.
 

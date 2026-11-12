@@ -12,7 +12,7 @@ export interface UiComponent {
 export type PanelName = 'sidebar' | 'feed';
 
 /**
- * Uma janela de terminal só, por agente: o interativo quando a sessão roda dentro do Habblaud (pty); senão o
+ * Uma janela de terminal só, por agente: o interativo quando a sessão roda dentro do PYX (pty); senão o
  * de leitura (com "Assumir daqui" para passar a ser interativo). Montado em ui/index.ts.
  */
 export interface TerminalRouter {
@@ -67,12 +67,12 @@ export interface UiContext {
   /** Abre a ajuda; com `section`, rola até ela (ex.: "usage" = Contas e uso). */
   openHelp(section?: HelpSection): void;
   toggleSettings(): void;
-  /** Abre/fecha a janela do Habblaud World (o botão da barra do topo; ui/world/world-dialog.ts). */
+  /** Abre/fecha a janela do PYX World (o botão da barra do topo; ui/world/world-dialog.ts). */
   toggleWorld(): void;
   /** Abre o campo de renomear a sala perto do ponto (px da janela); botão direito na sala (ui/roomrename.ts). */
   renameRoom?(roomId: string, at: { x: number; y: number }): void;
   /**
-   * (Opcional) "Ver como os outros veem": abre a cidade do Habblaud World e entra no próprio prédio (a cena Visita). Só
+   * (Opcional) "Ver como os outros veem": abre a cidade do PYX World e entra no próprio prédio (a cena Visita). Só
    * existe com a cena Mundo montada (app.ts).
    */
   visitOwnBuilding?(): void;

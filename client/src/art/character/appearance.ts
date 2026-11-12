@@ -1,5 +1,5 @@
 // Geração determinística de aparência a partir de uma semente (puro, sem DOM). O sorteio e as paletas moraram aqui e
-// foram para shared/world/appearance-flat.ts (o mesmo sorteio serve o escritório e o Habblaud World); este módulo
+// foram para shared/world/appearance-flat.ts (o mesmo sorteio serve o escritório e o PYX World); este módulo
 // re-exporta e guarda o que é só do editor do personagem.
 import { ACCESSORIES, BOTTOM_STYLES, FACIAL_HAIR, HAIR_STYLES, TOP_STYLES, type PartKey } from '../../../../shared/appearance';
 import {

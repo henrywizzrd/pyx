@@ -1,4 +1,4 @@
-// Cidade do Habblaud World: a geometria de shared/world/city.ts virada no que a cena precisa (puro, sem DOM).
+// Cidade do PYX World: a geometria de shared/world/city.ts virada no que a cena precisa (puro, sem DOM).
 //
 // - Célula de quarteirão: o quarteirão, a calçada em volta e a rua a leste e ao sul (51 × 33 tiles, a distância
 //   entre dois quarteirões). Todas as células são iguais (menos a praça); o chão de uma célula é desenhado uma vez e
@@ -408,7 +408,7 @@ export function plazaDecor(): Decor[] {
   ] as const) {
     out.push({ kind: 'lamp', x: X(lx) + 8, y: Y(ly) + 10, seed: lx * 3 + ly });
   }
-  // o totem do Habblaud ao lado do ponto de nascimento
+  // o totem do PYX ao lado do ponto de nascimento
   out.push({ kind: 'totem', x: X(SPAWN.x - 3) + 8, y: Y(SPAWN.y) + 4, seed: 2 });
   out.push({ kind: 'planter', x: X(SPAWN.x + 3) + 8, y: Y(SPAWN.y) + 6, seed: 9, small: true });
   return out;

@@ -1,4 +1,4 @@
-/* Interface do Habblaud: painéis escuros translúcidos sobre o escritório em pixel art.
+/* Interface do PYX: painéis escuros translúcidos sobre o escritório em pixel art.
    Tipografia: logotipo em pixels (SVG); Pixelify Sans só em rótulos fixos de painel sem "C" maiúsculo nem
    dígitos (na Pixelify o "C" parece "O" e o "5" parece "S"); system-ui para o corpo, nomes, letras de conta e números.
    Identidade: detalhes "em pixel" (pontos de status quadrados, barras segmentadas de uso, ícones em pixels). */
@@ -3383,7 +3383,7 @@
   animation: ui-blink 1s steps(2, jump-none) infinite;
 }
 
-/* Aviso de versão nova (página aberta antes de uma atualização do Habblaud). */
+/* Aviso de versão nova (página aberta antes de uma atualização do PYX). */
 .ui-banner--update {
   z-index: 46;
   border-color: rgba(74, 168, 232, 0.55);
@@ -7541,7 +7541,7 @@ html.is-replay #world {
   opacity: 0.94;
 }
 
-/* Terminal expandido na tela toda do Habblaud (botão ao lado do fechar). */
+/* Terminal expandido na tela toda do PYX (botão ao lado do fechar). */
 .ui-term.is-max {
   z-index: 46;
   inset: calc(var(--top-h) + var(--gap)) var(--gap) var(--gap) !important;
@@ -9038,11 +9038,11 @@ html.is-replay #world {
   }
 }
 
-/* ------------------------------------------------------------------ Habblaud World (ui/world/)
+/* ------------------------------------------------------------------ PYX World (ui/world/)
    Seção em Configurações (conta, lista de espera, personagem, visibilidade, dispositivos) e o cartão de convite.
    Mesmas cores do resto do painel (tokens do .ui-root); o popover já ocupa a largura do celular com as margens. */
 
-/* A janela do Habblaud World (ui/world/world-dialog.ts): um <dialog> modal com o botão próprio na barra do topo; o
+/* A janela do PYX World (ui/world/world-dialog.ts): um <dialog> modal com o botão próprio na barra do topo; o
    conteúdo (.ui-world) é o de settings-world.ts, e o chip do estado da conta fica no cabeçalho. */
 .ui-world-dialog {
   width: min(560px, calc(100vw - 32px));
@@ -9653,7 +9653,7 @@ html.is-replay #world {
   animation: ui-blink 0.8s steps(2, jump-none) infinite;
 }
 
-/* Os popups de lançamento do Habblaud World ("Novidade", "Você está na lista de espera", "Acesso liberado!"): um
+/* Os popups de lançamento do PYX World ("Novidade", "Você está na lista de espera", "Acesso liberado!"): um
    <dialog> modal no top layer (acima de Configurações), centralizado, com o fundo escurecido e rolagem interna. */
 .ui-world-popup {
   width: min(480px, calc(100vw - 32px));
@@ -9824,7 +9824,7 @@ html.is-replay #world {
   }
 }
 
-/* ------------------------------------------------------------------ Habblaud World: prédio no mundo (Fase 2)
+/* ------------------------------------------------------------------ PYX World: prédio no mundo (Fase 2)
    Cartão "Seu prédio" na seção (conta aprovada), a janela "Ver o que foi enviado", a dica do tema em Aparência e o
    chip da barra do topo. A interface só tem o tema escuro: as cores saem dos tokens do .ui-root. */
 
@@ -10218,7 +10218,7 @@ html.is-replay #world {
 }
 
 /* Barra apertada: a linha de status vira um selo no canto do logo (sem versão nem "Demonstração"); o chip sai também
-   (o prédio continua em Configurações › Habblaud World). */
+   (o prédio continua em Configurações › PYX World). */
 @media (max-width: 1040px) {
   .ui-world-chip {
     display: none;
@@ -10243,7 +10243,7 @@ html.is-replay #world {
   }
 }
 
-/* ------------------------------------------------------------------ Habblaud World: a cidade (botão Mundo) */
+/* ------------------------------------------------------------------ PYX World: a cidade (botão Mundo) */
 
 /* Botão Mundo / Escritório, ao lado do Timelapse: com rótulo (é a troca de cena), em azul quando na cidade. */
 .ui-scene-btn {
@@ -10649,7 +10649,7 @@ html.is-replay #world {
   }
 }
 
-/* ===================================================================== Visita (Habblaud World, Fase 4) */
+/* ===================================================================== Visita (PYX World, Fase 4) */
 
 /* Dentro de um prédio: a cidade fica parada por baixo; dela, só os avisos continuam. */
 .ui-city.is-visiting > :not(.ui-city-toast) {

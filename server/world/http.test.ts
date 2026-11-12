@@ -1,4 +1,4 @@
-// Rotas locais do Habblaud World (/api/world/*) com o servidor do mundo de mentira (server/test/fake-world.ts): as
+// Rotas locais do PYX World (/api/world/*) com o servidor do mundo de mentira (server/test/fake-world.ts): as
 // travas, a validação e o caminho inteiro de ponta a ponta (cadastro → verificação → lista de espera → entrar →
 // personagem → sair), conferindo que o token do dispositivo nunca aparece fora do world.json.
 import http from 'node:http';
@@ -58,7 +58,7 @@ afterEach(async () => {
   vi.restoreAllMocks();
 });
 
-/** A porta local do Habblaud (guard + API), com o mundo como no server/index.ts. */
+/** A porta local do PYX (guard + API), com o mundo como no server/index.ts. */
 async function start(opts: { world?: 'off' | 'no-url' | 'on'; terminal?: boolean; meTtlMs?: number; uplink?: boolean } = {}): Promise<Harness> {
   const mode = opts.world ?? 'on';
   const tmp = tempDir();
@@ -188,8 +188,8 @@ async function call(
   });
 }
 
-describe('HABBLAUD_WORLD e HABBLAUD_WORLD_URL', () => {
-  it('HABBLAUD_WORLD=0: 404 em todas as rotas e meta.world desligado', async () => {
+describe('PYX_WORLD e PYX_WORLD_URL', () => {
+  it('PYX_WORLD=0: 404 em todas as rotas e meta.world desligado', async () => {
     const s = await start({ world: 'off' });
     for (const [m, p] of [['GET', '/api/world/status'], ['POST', '/api/world/login'], ['PUT', '/api/world/character'], ['GET', '/api/world']]) {
       expect((await call(s.base, m, p, m === 'GET' ? undefined : {})).status, `${m} ${p}`).toBe(404);
@@ -198,7 +198,7 @@ describe('HABBLAUD_WORLD e HABBLAUD_WORLD_URL', () => {
     expect((await call(s.base, 'GET', '/api/access')).body.world).toBe(false);
   });
 
-  it('sem URL (HABBLAUD_WORLD_URL recusada): recurso desligado (meta.world sem enabled), status off e o resto 409 not_configured', async () => {
+  it('sem URL (PYX_WORLD_URL recusada): recurso desligado (meta.world sem enabled), status off e o resto 409 not_configured', async () => {
     const s = await start({ world: 'no-url' });
     expect((await call(s.base, 'GET', '/api/world/status')).body).toEqual({ available: true, configured: false, state: 'off' });
     const r = await call(s.base, 'POST', '/api/world/register', REGISTER);
@@ -211,8 +211,10 @@ describe('HABBLAUD_WORLD e HABBLAUD_WORLD_URL', () => {
 
   it('parseWorldConfig: só https/wss; http://127.0.0.1 no modo de desenvolvimento; só a origem', () => {
     const p = (url: string | undefined, extra: NodeJS.ProcessEnv = {}, argv: string[] = []) =>
-      parseWorldConfig({ HABBLAUD_WORLD_URL: url, ...extra }, argv);
-    // Sem HABBLAUD_WORLD_URL (ou vazia), o servidor do mundo padrão; definida, vale a definida (e recusada não cai no padrão).
+      parseWorldConfig({ PYX_WORLD: '1', PYX_WORLD_URL: url, ...extra }, argv);
+    // PYX (fork): sem PYX_WORLD=1 o World fica desligado.
+    expect(parseWorldConfig({}, [])).toEqual({ enabled: false, dev: false });
+    // Sem PYX_WORLD_URL (ou vazia), o servidor do mundo padrão; definida, vale a definida (e recusada não cai no padrão).
     expect(p(undefined)).toEqual({ enabled: true, dev: false, url: DEFAULT_WORLD_URL, defaultUrl: true });
     expect(p('  ')).toEqual({ enabled: true, dev: false, url: DEFAULT_WORLD_URL, defaultUrl: true });
     expect(DEFAULT_WORLD_URL).toBe('https://server.habblaud.com');
@@ -224,11 +226,11 @@ describe('HABBLAUD_WORLD e HABBLAUD_WORLD_URL', () => {
     expect(p('http://127.0.0.1:4848').url).toBeUndefined();
     expect(p('http://127.0.0.1:4848').warning).toMatch(/desenvolvimento/);
     expect(p('http://127.0.0.1:4848', {}, ['--dev']).url).toBe('http://127.0.0.1:4848');
-    expect(p('ws://127.0.0.1:4848', { HABBLAUD_WORLD_DEV: '1' }).url).toBe('http://127.0.0.1:4848');
+    expect(p('ws://127.0.0.1:4848', { PYX_WORLD_DEV: '1' }).url).toBe('http://127.0.0.1:4848');
     expect(p('http://localhost:4848', {}, ['--dev']).url).toBeUndefined();
     expect(p('http://10.0.0.5:4848', {}, ['--dev']).url).toBeUndefined();
-    // O servidor do mundo no host, visto de dentro do container do Habblaud (docker-compose.yml: extra_hosts).
-    expect(p('http://host.docker.internal:4848', { HABBLAUD_WORLD_DEV: '1' }).url).toBe('http://host.docker.internal:4848');
+    // O servidor do mundo no host, visto de dentro do container do PYX (docker-compose.yml: extra_hosts).
+    expect(p('http://host.docker.internal:4848', { PYX_WORLD_DEV: '1' }).url).toBe('http://host.docker.internal:4848');
     expect(p('ws://host.docker.internal:4848', {}, ['--dev']).url).toBe('http://host.docker.internal:4848');
     expect(p('http://host.docker.internal:4848').url).toBeUndefined();
     expect(p('http://host.docker.internal:4848').warning).toMatch(/host\.docker\.internal.*desenvolvimento/);
@@ -241,8 +243,8 @@ describe('HABBLAUD_WORLD e HABBLAUD_WORLD_URL', () => {
       // O aviso não repete a URL (pode ter senha).
       expect(p(bad).warning).not.toContain('pw@');
     }
-    expect(p('https://server.habblaud.com', { HABBLAUD_WORLD: '0' })).toEqual({ enabled: false, dev: false });
-    expect(p(undefined, { HABBLAUD_WORLD: 'off' })).toEqual({ enabled: false, dev: false });
+    expect(p('https://server.habblaud.com', { PYX_WORLD: '0' })).toEqual({ enabled: false, dev: false });
+    expect(p(undefined, { PYX_WORLD: 'off' })).toEqual({ enabled: false, dev: false });
     expect(worldSocketUrl('https://server.habblaud.com')).toBe('wss://server.habblaud.com/v1/socket');
     expect(worldSocketUrl('http://127.0.0.1:4848')).toBe('ws://127.0.0.1:4848/v1/socket');
     expect(worldSocketUrl('http://host.docker.internal:4848')).toBe('ws://host.docker.internal:4848/v1/socket');
@@ -250,11 +252,11 @@ describe('HABBLAUD_WORLD e HABBLAUD_WORLD_URL', () => {
 });
 
 describe('docker-compose.yml', () => {
-  it('repassa ao container toda variável do Habblaud World que o servidor lê', () => {
+  it('repassa ao container toda variável do PYX World que o servidor lê', () => {
     const compose = readFileSync(join(import.meta.dirname, '..', '..', 'docker-compose.yml'), 'utf8');
     const config = readFileSync(join(import.meta.dirname, '..', 'config.ts'), 'utf8');
-    const read = [...new Set([...config.matchAll(/env\.(HABBLAUD_WORLD[A-Z_]*)/g)].map((m) => m[1]))].sort();
-    expect(read).toEqual(['HABBLAUD_WORLD', 'HABBLAUD_WORLD_DEV', 'HABBLAUD_WORLD_URL']);
+    const read = [...new Set([...config.matchAll(/env\.(PYX_WORLD[A-Z_]*)/g)].map((m) => m[1]))].sort();
+    expect(read).toEqual(['PYX_WORLD', 'PYX_WORLD_DEV', 'PYX_WORLD_URL']);
     for (const key of read) expect(compose, key).toMatch(new RegExp(`^\\s+${key}: \\$\\{${key}:-\\}$`, 'm'));
   });
 
@@ -265,7 +267,7 @@ describe('docker-compose.yml', () => {
 });
 
 describe('travas', () => {
-  it('Host que não é local: 403 local_only (IP da rede ou nome de HABBLAUD_ALLOWED_HOSTS)', async () => {
+  it('Host que não é local: 403 local_only (IP da rede ou nome de PYX_ALLOWED_HOSTS)', async () => {
     const s = await start();
     for (const host of ['192.168.0.10:4747', 'meu-mac.local:4747']) {
       const r = await call(s.base, 'GET', '/api/world/status', undefined, { Host: host });
@@ -542,7 +544,7 @@ describe('de ponta a ponta com o servidor do mundo de mentira', () => {
     expect([...s.world!.devices.keys()][0]).toBe(s.store.get()?.token);
   });
 
-  it('reinício do Habblaud: a sessão volta do world.json', async () => {
+  it('reinício do PYX: a sessão volta do world.json', async () => {
     const s = await start();
     await call(s.base, 'POST', '/api/world/register', REGISTER);
     await call(s.base, 'POST', '/api/world/verify', { email: EMAIL, code: FAKE_CODE });
@@ -1134,9 +1136,9 @@ describe('a conta e os dados (Fase 6)', () => {
 
     const r = await call(s.base, 'GET', '/api/world/export', undefined, { 'Sec-Fetch-Site': 'same-origin' });
     expect(r.status).toBe(200);
-    expect(r.headers['content-disposition']).toBe('attachment; filename="habblaud-world-dados.json"');
+    expect(r.headers['content-disposition']).toBe('attachment; filename="pyx-world-dados.json"');
     expect(r.headers['cache-control']).toBe('no-store');
-    expect(r.body).toMatchObject({ format: 'habblaud-world-export', version: 1, account: { email: EMAIL }, player: { name: 'Ana Pixel' }, likesGiven: [], blocks: [], reportsMade: [] });
+    expect(r.body).toMatchObject({ format: 'pyx-world-export', version: 1, account: { email: EMAIL }, player: { name: 'Ana Pixel' }, likesGiven: [], blocks: [], reportsMade: [] });
     expect(w.requests.find((q) => q.path === '/v1/me/export')?.method).toBe('GET');
     // A segunda no mesmo dia: 429, com a espera.
     const again = await call(s.base, 'GET', '/api/world/export');

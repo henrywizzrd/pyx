@@ -1,4 +1,4 @@
-// Rótulos do social leve do Habblaud World (Fase 5): cumprimentos, carimbos da portaria, motivos de denúncia e metas da
+// Rótulos do social leve do PYX World (Fase 5): cumprimentos, carimbos da portaria, motivos de denúncia e metas da
 // cidade. O protocolo leva só o id; o texto (e o ícone) sai aqui, no idioma de quem vê, como intro.ts e traits.ts.
 // Puro: sem Node nem DOM.
 import { intlLocale, tr } from '../i18n';

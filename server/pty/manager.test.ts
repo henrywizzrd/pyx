@@ -145,7 +145,7 @@ describe('PtyManager: assumir', () => {
   });
 
   it('pasta que não existe: recusa antes de encerrar a sessão de lá', async () => {
-    const s = setup({ agent: { cwd: join(tmpdir(), 'nao-existe-habblaud-teste') } });
+    const s = setup({ agent: { cwd: join(tmpdir(), 'nao-existe-pyx-teste') } });
     await rejects(s.manager.takeover(`acc:${PID}`), 400);
     expect(s.killPid).not.toHaveBeenCalled();
     expect(s.alive.has(PID)).toBe(true);
@@ -196,7 +196,7 @@ describe('PtyManager: assumir', () => {
   });
 
   it('claude que não roda: recusa antes de encerrar', async () => {
-    const s = setup({ claudeBin: join(tmpdir(), 'nao-existe-habblaud-claude') });
+    const s = setup({ claudeBin: join(tmpdir(), 'nao-existe-pyx-claude') });
     await rejects(s.manager.takeover(`acc:${PID}`), 503);
     expect(s.killPid).not.toHaveBeenCalled();
     expect(s.alive.has(PID)).toBe(true);
@@ -303,7 +303,7 @@ describe('carregar o node-pty e achar o claude', () => {
   /** Pasta temporária, apagada no fim. */
   function withDir(fn: (dir: string) => void | Promise<void>) {
     return async () => {
-      const dir = mkdtempSync(join(tmpdir(), 'habblaud-pty-'));
+      const dir = mkdtempSync(join(tmpdir(), 'pyx-pty-'));
       try {
         await fn(dir);
       } finally {
@@ -357,10 +357,10 @@ describe('carregar o node-pty e achar o claude', () => {
       const env = { PATH: `${a}:${b}` };
       expect(findExecutable('claude', env)).toBe(join(b, 'claude'));
       expect(claudeBinFrom(env)).toBe(join(b, 'claude'));
-      // HABBLAUD_CLAUDE_BIN: um caminho vale como está; um nome é procurado no PATH.
-      expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: join(a, 'claude') })).toBe(join(a, 'claude'));
-      expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: 'claude' })).toBe(join(b, 'claude'));
-      expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: 'outro' })).toBeUndefined();
+      // PYX_CLAUDE_BIN: um caminho vale como está; um nome é procurado no PATH.
+      expect(claudeBinFrom({ ...env, PYX_CLAUDE_BIN: join(a, 'claude') })).toBe(join(a, 'claude'));
+      expect(claudeBinFrom({ ...env, PYX_CLAUDE_BIN: 'claude' })).toBe(join(b, 'claude'));
+      expect(claudeBinFrom({ ...env, PYX_CLAUDE_BIN: 'outro' })).toBeUndefined();
     }),
   );
 });

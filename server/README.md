@@ -1,4 +1,4 @@
-# Servidor do Habblaud
+# Servidor do PYX
 
 Node puro (sem dependências de runtime). Observa as sessões **abertas** do Claude Code em todas as
 contas da máquina, mantém o modelo do escritório e transmite tudo via SSE.
@@ -16,7 +16,7 @@ npm run build && npm start   # produção: serve dist/client
 | Atividades, tarefas, título, números | `<config>/projects/<cwd>/<sessionId>.jsonl` (lê o último ~1 MB no boot; o começo em segundo plano) |
 | Subagentes (inclusive de workflows) | `<config>/projects/<cwd>/<sessionId>/subagents/**/agent-*.jsonl` + `.meta.json` |
 | Conta (e-mail, organização) e cache de uso | `~/.claude.json` (conta padrão) ou `<config>/.claude.json` — só esses campos |
-| Uso ao vivo (5h e semanal) | `~/.habblaud/usage/<conta>.json`, gravado pelo mod do Habblaud (`npm run mod:install`) ou pelo `scripts/statusline-tap.mjs` (`npm run usage:install`) |
+| Uso ao vivo (5h e semanal) | `~/.pyx/usage/<conta>.json`, gravado pelo mod do PYX (`npm run mod:install`) ou pelo `scripts/statusline-tap.mjs` (`npm run usage:install`) |
 | Atalho da conta (`c`, `d`...) | linhas `alias x='... claude ...'` de `~/.zshrc`, `~/.bashrc`, `~/.zprofile`, `~/.bash_profile` |
 
 **Forks** (subagentes que herdam o contexto do pai): o transcript começa com uma linha `fork-context-ref`, a
@@ -82,21 +82,21 @@ festa) ou 10 min. Push só avisa. O mesmo CI visto de novo em 2 min não repete 
 | `GET /api/mod/summary?account=&session=` | `ModSummary` para o mod do Claude Code: `{version, agents, working, waiting:[{id, name, room, account, waitingFor, since, answerable}]}`, sem o demo e sem a sessão de quem pergunta (ver abaixo) |
 | `GET /api/updates` | `{version, ...UpdateStatus}`: versão em uso e o resultado da verificação de versão nova (ver abaixo) |
 | `POST /api/updates/check` | "Verificar agora": consulta o GitHub (no máximo uma vez a cada 30 s) e devolve `{version, ...UpdateStatus}` |
-| `/api/world/*` | Habblaud World (conta, personagem e prédio; ligado por padrão, `HABBLAUD_WORLD=0` desliga): só pela porta local com `Host` local; ver abaixo |
+| `/api/world/*` | PYX World (conta, personagem e prédio; ligado por padrão, `PYX_WORLD=0` desliga): só pela porta local com `Host` local; ver abaixo |
 | `POST /api/permissions` | (hook) registra um pedido de permissão: `201 {id, expiresAt}` ou `200 {skip}`; só com bind local (ver abaixo) |
 | `GET /api/permissions/:id/wait` | (hook) long-poll de até 25 s (`?timeout=` em segundos): `{status: 'pending' \| 'decided' \| 'released', ...}` |
 | `GET /api/permissions/:id` | (página) detalhe do pedido com os argumentos (`PermissionRequestInfo` com `input`) |
 | `POST /api/permissions/:id/decision` | (página) `PermissionDecision`: `{behavior: 'allow' \| 'deny' \| 'terminal' \| 'answer', message?, interrupt?, suggestion?, answers?}` |
 | `POST /api/messages` | (página) `{agentId, text}`: manda uma mensagem a um agente principal; `201 OutboxMessage`; só com bind local (ver abaixo) |
 | `GET /api/messages/:id` | (página) situação da mensagem (`OutboxMessage`: `queued` \| `sent` \| `delivered` \| `failed`) |
-| `POST /api/mod/inbox` | (plugin `habblaud-mensagens`) `{session, account?}`: marca a presença da sessão e entrega `{messages: InboxMessage[]}` |
+| `POST /api/mod/inbox` | (plugin `pyx-mensagens`) `{session, account?}`: marca a presença da sessão e entrega `{messages: InboxMessage[]}` |
 | `POST /api/mod/inbox/ack` | (plugin) `{session, results: [{id, ok, error?}]}`: confirma cada mensagem entregue (ou a falha) |
 
 O snapshot (SSE e `GET /api/snapshot`) leva só as últimas 8 atividades de cada agente em `recent`; o histórico
 de até 200 (inclusive o começo de transcripts longos, lido em segundo plano) vem de `GET /api/agents/:id`.
 
 Borda (`http/guard.ts`, vale para API, estáticos e Vite): `Host` precisa ser `localhost`/`*.localhost`, um IP
-ou um nome de `HABBLAUD_ALLOWED_HOSTS` (contra DNS rebinding) → senão 403; `POST` em `/api/*` exige
+ou um nome de `PYX_ALLOWED_HOSTS` (contra DNS rebinding) → senão 403; `POST` em `/api/*` exige
 `Content-Type: application/json` (415) e `Origin` da mesma origem ou local (403), contra CSRF. Respostas JSON
 saem com `nosniff` e `Cross-Origin-Resource-Policy: same-origin`, sem CORS.
 
@@ -111,7 +111,7 @@ seguir o semver (`v1.2.3` ou `1.2.3-beta.1`) e é comparada com a versão do `pa
 release (`ok` sem `latest`); 403/429 = limite do GitHub (`error`). Numa falha, a última release conhecida continua
 valendo. O status vai no snapshot em `meta.updates` (`UpdateStatus` em `shared/types.ts`) e, quando muda, o snapshot é
 republicado. O link da release só passa se for do próprio repositório no GitHub. Uma versão nova encontrada é
-avisada uma vez no log. `HABBLAUD_UPDATE_CHECK=0` desliga (`state: 'off'`, nenhuma consulta).
+avisada uma vez no log. `PYX_UPDATE_CHECK=0` desliga (`state: 'off'`, nenhuma consulta).
 
 Cada versão tem a sua seção no `CHANGELOG.md`; um teste falha se a versão do `package.json` não tiver seção, e o
 `npm run release` (`scripts/release.ts`) cria a tag e a release com o texto dela como notas.
@@ -130,21 +130,21 @@ cliente com mais de 8 MB acumulados é desconectado. O que se digita no rodapé 
 
 O recurso só existe com **bind local** (`config.ts`, `terminalOffReason`), já que mostra a conversa inteira:
 
-- Node: `HABBLAUD_HOST` loopback (127.0.0.0/8, `::1`, `localhost`); `0.0.0.0`, `::` ou IP de rede desligam;
+- Node: `PYX_HOST` loopback (127.0.0.0/8, `::1`, `localhost`); `0.0.0.0`, `::` ou IP de rede desligam;
 - Docker: o processo sempre escuta em `0.0.0.0` dentro do container, então vale a porta publicada no host,
-  `HABBLAUD_BIND` (o `docker-compose.yml` repassa o mesmo valor ao container): loopback liga; ausente, vazia ou
+  `PYX_BIND` (o `docker-compose.yml` repassa o mesmo valor ao container): loopback liga; ausente, vazia ou
   qualquer outra desliga;
-- `HABBLAUD_TERMINAL=0` desliga sempre; nenhuma variável liga o terminal com a porta exposta.
+- `PYX_TERMINAL=0` desliga sempre; nenhuma variável liga o terminal com a porta exposta.
 
 Além disso, cada requisição precisa de `Host` local (`localhost`, `*.localhost`, 127.x ou `[::1]`): IPs da rede e
-nomes de `HABBLAUD_ALLOWED_HOSTS` (proxies, túneis) recebem 403. O estado sai em `meta.terminal` do snapshot e em
+nomes de `PYX_ALLOWED_HOSTS` (proxies, túneis) recebem 403. O estado sai em `meta.terminal` do snapshot e em
 `terminal` no `/api/health`. Erros antes do stream respondem JSON `{error}`: 403 (desligado ou acesso que não é
 local), 404 (agente ou transcript desconhecido), 405 (método que não é `GET`), 429 (terminais demais) e 500
 (transcript ilegível).
 
 ## Linha do tempo (timelapse)
 
-`history/timeline.ts` grava o escritório para o timelapse do cliente em `<HABBLAUD_DATA_DIR>/timeline/AAAA-MM-DD.jsonl`
+`history/timeline.ts` grava o escritório para o timelapse do cliente em `<PYX_DATA_DIR>/timeline/AAAA-MM-DD.jsonl`
 (dia local do servidor; no Docker, `/data/timeline`). Formato e reconstrução em `shared/timeline.ts`; um registro por linha:
 
 - `{"t":"k", at, v, every, boot?, rooms, agents, accounts}`: **keyframe**, o estado completo. Abre cada arquivo, se
@@ -164,7 +164,7 @@ por isso as rotas valem com qualquer bind.
 - **Retenção:** os últimos 7 dias (contando hoje); só arquivos `AAAA-MM-DD.jsonl` são apagados.
 - **Falhas de disco:** nunca derrubam o servidor: um aviso no log, nova tentativa em 1 min, recomeçando com keyframe.
 - **Lacunas:** sem nenhum registro por mais de ~1,5× `every` (ou depois de um `end`), o player mostra "sem dados".
-- `HABBLAUD_TIMELINE=0` desliga a gravação (as rotas continuam servindo os dias gravados).
+- `PYX_TIMELINE=0` desliga a gravação (as rotas continuam servindo os dias gravados).
 
 O dia na URL só é aceito como `AAAA-MM-DD` de uma data válida e o caminho do arquivo é montado só a partir dele
 (nada de `..`, barras codificadas ou bytes nulos). `scripts/demo-timeline.ts` (`npm run demo:timeline`) usa o mesmo
@@ -219,8 +219,8 @@ dentro da pasta `projects/` da conta (404); segmentos que não decodificam respo
 trava do terminal (recurso ligado e `Host` local, senão 403) e só aceitam `GET` (a lista, também `HEAD`; senão 405).
 ## Responder pelo escritório
 
-O hook `PermissionRequest` do Claude Code (`mod/habblaud-permissoes/hooks/permission-hook.mjs`, com `matcher: "*"`:
-pelo plugin `habblaud-permissoes` no Claude Code 2.1.287+ ou instalado em `<conta>/settings.json` por
+O hook `PermissionRequest` do Claude Code (`mod/pyx-permissoes/hooks/permission-hook.mjs`, com `matcher: "*"`:
+pelo plugin `pyx-permissoes` no Claude Code 2.1.287+ ou instalado em `<conta>/settings.json` por
 `npm run hooks:install`) roda **junto** com o diálogo de permissão do terminal: vale o que
 responder primeiro. Em subagentes em segundo plano o Claude Code roda o hook antes e só mostra o diálogo depois que
 ele sai. O hook manda o pedido (`session_id`, `agent_id`/`agent_type`, `cwd`, `tool_name`, `tool_input` com textos
@@ -260,7 +260,7 @@ ou resposta inválidos), 404 (pedido desconhecido, já entregue ou expirado), 40
 ## Mensagens pelo escritório
 
 A página manda texto a um agente principal (`POST /api/messages`, pela gaveta do agente ou pelo rodapé do terminal) e
-o plugin `habblaud-mensagens` da sessão o busca (`POST /api/mod/inbox`, a cada 2 s) e o entrega com
+o plugin `pyx-mensagens` da sessão o busca (`POST /api/mod/inbox`, a cada 2 s) e o entrega com
 `$.prompt.submit({ text, asUser: true })`: o modelo lê como se você tivesse digitado. Depois confirma
 (`POST /api/mod/inbox/ack`). Detalhes do plugin em [`mod/README.md`](../mod/README.md).
 
@@ -273,11 +273,11 @@ o plugin `habblaud-mensagens` da sessão o busca (`POST /api/mod/inbox`, a cada 
 - **estados:** `queued` → `sent` (o plugin buscou) → `delivered` ou `failed`. `queued` sem ser buscada em 60 s, `sent`
   sem confirmação em 30 s ou agente que saiu = `failed`, com o motivo. `delivered` = entrou na sessão ou na fila dela
   (com o agente ocupado, entra quando ele terminar o turno). Resolvidas ficam 10 min para o `GET`;
-- entregue: atividade ✉️ "Mensagem pelo Habblaud" no agente (o detalhe mascarado e cortado); agentes do demo recebem
+- entregue: atividade ✉️ "Mensagem pelo PYX" no agente (o detalhe mascarado e cortado); agentes do demo recebem
   mensagens fictícias, entregues em ~1 s, sem sessão real.
 
 As rotas (`messages/http.ts`) seguem a trava do terminal e mais uma chave: `ServerConfig.messages` = terminal ligado e
-`HABBLAUD_MENSAGENS` não desligado (`0`, `false`, `off`, `no`). Desligado ou `Host` que não é local → 403 em todas.
+`PYX_MENSAGENS` não desligado (`0`, `false`, `off`, `no`). Desligado ou `Host` que não é local → 403 em todas.
 Erros de `POST /api/messages`: 400 (corpo inválido, texto vazio ou longo demais), 404 (agente desconhecido), 409 (o
 agente não recebe: subagente, saiu ou sessão sem o plugin conectado) e 429. O estado sai em `meta.messages` do
 snapshot e em `messages` no `/api/health`.
@@ -304,7 +304,7 @@ Regras:
   `parts` e `custom: true`. Quem está saindo não conta, porque costuma ser a mesma sessão reaberta. Se o nome não
   estiver livre, vale o sorteio de sempre.
 - O personagem tem dono (`owner`, o `sessionId` de quem o recebeu ou salvou por último; o `/clear` passa o dono para a
-  sessão nova): uma sessão que não é a dona e já tem nome guardado mantém o dela, para que um reinício do Habblaud
+  sessão nova): uma sessão que não é a dona e já tem nome guardado mantém o dela, para que um reinício do PYX
   não troque identidades nem mude o personagem de uma sessão no meio dela.
 - Os nomes escolhidos ficam reservados: o sorteio não os entrega, sem diferenciar maiúsculas. O `PUT` responde `409`
   para o nome de alguém presente (inclusive do demo) ou o de outra sala.
@@ -320,7 +320,7 @@ Fontes de agentes (`sources/source.ts`): `SourceSet` junta a do Claude Code (`Cl
 Codex, a do Codex (`sources/codex/`); o histórico idem (`HistorySet`). Agentes, contas, fontes e sessões do histórico
 do Codex levam `provider: 'codex'` (ausente = Claude Code). Ids: `<conta>:<threadId>`, `sessionId` = threadId.
 
-- **Contas** (`sources/codex/accounts.ts`): `HABBLAUD_CODEX_DIRS` (substitui) ou `CODEX_HOME` e `~/.codex*` com cara
+- **Contas** (`sources/codex/accounts.ts`): `PYX_CODEX_DIRS` (substitui) ou `CODEX_HOME` e `~/.codex*` com cara
   de Codex (`isCodexHome`: `thread-writer-locks/`, `archived_sessions/`, `config.toml`, `auth.json` ou
   `sessions/AAAA/`, sem `projects/`, que só o Claude Code cria). Uma pasta do Codex nunca vira conta do Claude Code.
   `auth.json` e `config.toml` nunca são lidos; o plano vem de `rate_limits.plan_type`.
@@ -339,26 +339,26 @@ do Codex levam `provider: 'codex'` (ausente = Claude Code). Ids: `<conta>:<threa
   `source.subagent.thread_spawn.parent_thread_id`; threads internos (guardian, review, compact, memory) ficam de fora.
 - **Terminal e histórico** (`sources/codex/terminal.ts`, `history.ts`): o parser do terminal é escolhido por agente
   (`SourceSet.parserFor`).
-- **Eventos dos hooks** (`POST /api/codex/events`, `codex/http.ts`; o hook é `mod/habblaud-codex/hook.mjs`): só com
+- **Eventos dos hooks** (`POST /api/codex/events`, `codex/http.ts`; o hook é `mod/pyx-codex/hook.mjs`): só com
   `Host` local e conexão pelo loopback (fora do Docker). Vão para `CodexLive.applyHookEvent` da fonte: casam por conta
   (pela pasta `codexHome`) e `agent_id ?? session_id` (no Codex, `session_id` é o thread RAIZ). SessionStart faz o
   agente aparecer, UserPromptSubmit/PreToolUse = trabalhando (com a atividade de agora), PermissionRequest = esperando
   ("aprovar um comando"), Stop = ocioso, SessionEnd fecha.
 - **Aprovar pelo escritório** (`permissions/*`, `permissions/codex.ts`): o mesmo `POST /api/permissions` com
   `provider: 'codex'`, `account` e `codexHome`; sem sugestões, sem perguntas, sem a busca no transcript; `interrupt` ou
-  `suggestion` num pedido do Codex = 400. O hook espera até `permissionTimeoutS` de `~/.habblaud/codex-hook.json`
+  `suggestion` num pedido do Codex = 400. O hook espera até `permissionTimeoutS` de `~/.pyx/codex-hook.json`
   (padrão 25 s) e imprime só `allow` ou `deny` (+`message`). O Codex só mostra a aprovação no terminal depois que o hook
   termina.
 - **Mensagens** (`messages/*`, `messages/codex.ts`): para agentes do Codex, `codex queue --thread=<id> --message=<texto>`
-  com `CODEX_HOME` = pasta da conta (no host). Fora do Docker o servidor roda o comando (`HABBLAUD_CODEX_BIN` ou `codex`
+  com `CODEX_HOME` = pasta da conta (no host). Fora do Docker o servidor roda o comando (`PYX_CODEX_BIN` ou `codex`
   do PATH); no Docker, o auxiliar do host (`npm run codex:bridge`) busca em `POST /api/codex/bridge/poll` e confirma em
   `/ack` (mesma trava das mensagens). `canMessage` = há entregador (binário achado, ou auxiliar visto há até 10 s).
   Retorno 0 = entrou na fila da sessão (`delivered`); o Codex consome a fila a cada ~10 s, quando a sessão fica ociosa.
 
-## Habblaud World
+## PYX World
 
 Ligado por padrão, apontando para `server.habblaud.com` (`DEFAULT_WORLD_URL` em `config.ts`); nada sai do computador
-antes de a pessoa criar a conta e entrar, e `HABBLAUD_WORLD=0` desliga tudo (o que sai do computador:
+antes de a pessoa criar a conta e entrar, e `PYX_WORLD=0` desliga tudo (o que sai do computador:
 `docs/world/privacidade.md`; como mexer: `shared/world/README.md`). O protocolo com o servidor do mundo é `shared/world/protocol.ts` (fonte da verdade, com
 `schema.json`). Do lado daqui, `world/`:
 
@@ -384,7 +384,7 @@ antes de a pessoa criar a conta e entrar, e `HABBLAUD_WORLD=0` desliga tudo (o q
   vem de `POST /v1/me/delete`; com `POST /v1/me/delete/confirm` aceito (ou um `goodbye: deleted`), fecha o uplink e
   espera, apaga o `world.json` inteiro (tema junto, `store.erase`) e a última remessa, e o status fica sem conta com
   `lastError: account_deleted`. Exportar os dados (`GET /v1/me/export`) só repassa o JSON.
-- `uplink.ts`: o prédio no mundo, por WebSocket (o `WebSocket` global do Node) em `<HABBLAUD_WORLD_URL>/v1/socket`
+- `uplink.ts`: o prédio no mundo, por WebSocket (o `WebSocket` global do Node) em `<PYX_WORLD_URL>/v1/socket`
   (`wss://`; `ws://127.0.0.1` e `ws://host.docker.internal` só no modo dev). Conecta só com a conta aprovada, o personagem criado e a trava do
   terminal; pausado ou fora do mundo, só enquanto a cena Mundo está aberta (o viewer avisa por `cityChanged`) e sem
   nenhum `uplink` (nem o do `welcome`): só `hello`, `ping`/`pong` e os comandos da cena. Manda o `hello` (`{v, version, build: {commit, dirty}, locale, token}`) e, a cada `welcome`, o
@@ -404,7 +404,7 @@ antes de a pessoa criar a conta e entrar, e `HABBLAUD_WORLD=0` desliga tudo (o q
   compactações (`signals.ts`) são observadas pelo mesmo `Office.onChange`, no máximo uma vez por segundo, com ou sem
   conexão; durante o boot do escritório (`Office.isBooting`) nada é observado nem enviado.
 - `ids.ts`: os ids do mundo, só em memória (`f_` + 10 hex por sala, `a_` + 8 hex por agente, `crypto.randomBytes`),
-  cada um com vida de 24 h ± 6 h sorteada por id; quem some e volta (ou o Habblaud reiniciado) ganha id novo.
+  cada um com vida de 24 h ± 6 h sorteada por id; quem some e volta (ou o PYX reiniciado) ganha id novo.
 - `tokens.ts`: tokens do prédio (entrada + saída) de hoje e dos 7 dias corridos, do "Meu dia" com a fonte `real` (o
   demo nunca entra), arredondados a 2 algarismos; os dias passados ficam guardados, o de hoje é relido a cada 15 s.
 - `theme.ts`: o tema escolhido resolvido para o pacote (o automático segue o calendário do escritório, pela data local
@@ -412,7 +412,7 @@ antes de a pessoa criar a conta e entrar, e `HABBLAUD_WORLD=0` desliga tudo (o q
   não conta).
 - `http.ts`: as rotas `/api/world/*` (lista e formatos em `shared/world/api.ts`). `http/app.ts` só as entrega pela
   porta local com `Host` local (a porta do celular recebe 403 `local_only`, nem com login); tudo, menos o `status`, exige
-  a trava do terminal (403 `terminal_off`); com `HABBLAUD_WORLD_URL` recusada, 409 `not_configured`; `HABBLAUD_WORLD=0`, 404.
+  a trava do terminal (403 `terminal_off`); com `PYX_WORLD_URL` recusada, 409 `not_configured`; `PYX_WORLD=0`, 404.
   Erros: `{error: {code, message?, retryAfter?}}`, com o status e o código do servidor do mundo quando vêm de lá.
   Do prédio: `PUT /api/world/theme` `{theme}` (com ou sem conta), `POST /api/world/pause` (para o envio antes de
   responder, fechando o uplink se a cena Mundo não está aberta, e avisa `POST /v1/me/building/pause`),
@@ -425,7 +425,7 @@ antes de a pessoa criar a conta e entrar, e `HABBLAUD_WORLD=0` desliga tudo (o q
   `GET /api/world/status` ganha `building` (conta aprovada com personagem) e `theme`; sem `?refresh=1` responde da
   memória e relê `/v1/me` em segundo plano quando venceu. Da conta (Fase 6): `POST /api/world/delete-account` (`202
   {}`: o código vai ao e-mail), `POST /api/world/delete-account/confirm` `{code}` (responde o status sem conta depois de
-  fechar o prédio e apagar o `world.json`), `GET /api/world/export` (o JSON como anexo `habblaud-world-dados.json`;
+  fechar o prédio e apagar o `world.json`), `GET /api/world/export` (o JSON como anexo `pyx-world-dados.json`;
   como o stream, só pela própria página, porque gasta a cota do dia; `HEAD` não chama o servidor do mundo) e o
   `notifyInactivity` opcional no `PUT /api/world/visibility`.
 
@@ -435,7 +435,7 @@ só da cena, pausado, não conta) e `stopped: true` sem o motivo, que só vai no
 conta aprovada e o personagem, `available` com a trava do terminal e sem parada de `banned`, `suspended`, `update`,
 `other-device` ou `deleted`: o botão Mundo da barra) e em `GET /api/access` (`world`). O build grava
 `dist/build.json` (`{commit, dirty, builtAt}`, `scripts/build-info.mjs`; sem git, `unknown`;
-`HABBLAUD_BUILD_COMMIT`/`HABBLAUD_BUILD_DIRTY` substituem o git), lido por `readBuildInfo()` (`build.ts`) a cada conexão
+`PYX_BUILD_COMMIT`/`PYX_BUILD_DIRTY` substituem o git), lido por `readBuildInfo()` (`build.ts`) a cada conexão
 do uplink: o `hello` leva só `{commit, dirty}`.
 
 ### Cena do mundo: stream e comandos
@@ -477,31 +477,31 @@ em `shared/world/city.ts` (fonte da verdade; o servidor do mundo guarda a cópia
 
 | Variável | Padrão | Uso |
 | --- | --- | --- |
-| `HABBLAUD_PORT` | `4747` | porta HTTP |
-| `HABBLAUD_HOST` | `127.0.0.1` | interface (o Docker usa `0.0.0.0`); fora do loopback, o terminal (e as permissões e mensagens) fica desligado |
-| `HABBLAUD_BIND` | — (Compose: `127.0.0.1`) | só Docker: interface do host onde a porta é publicada, repassada ao container; só loopback liga o terminal |
-| `HABBLAUD_TERMINAL` | — | `0` desliga o terminal, as permissões e as mensagens pelo escritório (não liga com a porta exposta) |
-| `HABBLAUD_CODEX` | ligado | `0` desliga a fonte do Codex |
-| `HABBLAUD_CODEX_DIRS` | — | pastas do Codex separadas por vírgula; substitui a detecção (`CODEX_HOME` e `~/.codex*`) |
-| `HABBLAUD_CODEX_BIN` | `codex` do PATH | binário do Codex para o `codex queue` (modo Node e `npm run codex:bridge`) |
-| `HABBLAUD_MENSAGENS` | ligado (com o terminal) | `0`, `false`, `off` ou `no` desligam só as mensagens pelo escritório |
-| `HABBLAUD_CLAUDE_DIRS` | — | config dirs separados por vírgula; substitui a detecção (`~/.claude*` com `projects/` ou `sessions/` + `CLAUDE_CONFIG_DIR`) |
-| `HABBLAUD_DATA_DIR` | `~/.habblaud` (Docker: `/data`) | estado do Habblaud (nomes e personagens dos projetos persistidos em `names.json`, linha do tempo em `timeline/`, estatísticas do Meu dia em `stats/`, última verificação de versão em `updates.json`) |
-| `HABBLAUD_TIMELINE` | ligado | `0` desliga a gravação da linha do tempo do timelapse |
-| `HABBLAUD_UPDATE_CHECK` | ligado | `0` desliga a verificação de versão nova (releases do repositório do `package.json` no GitHub, a cada 6 h) |
-| `HABBLAUD_LANG` | idioma do sistema (`LC_ALL`/`LANG`/Intl) | idioma dos textos montados pelo servidor: `pt-BR` ou `fr` (shared/i18n.ts) |
-| `HABBLAUD_DEMO` | desligado | `1` liga o modo demonstração ao iniciar |
-| `HABBLAUD_IN_DOCKER` | auto (`/.dockerenv`) | `1` = não confere PIDs (são do host) |
-| `HABBLAUD_ACCOUNTS` | — | JSON com metadados das contas vindos do host (Docker): `[{id, configDir, mountDir, short, name, email, organization, plan, color, cachedUsage}]`, casados por `id`, `mountDir` ou `configDir` |
-| `HABBLAUD_USAGE_DIR` | `~/.habblaud/usage` (Docker: `/usage`) | pasta do uso capturado pelo tap de statusline ou pelo mod do Claude Code, relida a cada 5 s |
-| `HABBLAUD_ALLOWED_HOSTS` | — | nomes extras aceitos no `Host`/`Origin` (vírgula); `localhost`, `*.localhost` e IPs sempre valem |
-| `HABBLAUD_WORLD_URL` | `https://server.habblaud.com` | servidor do Habblaud World: só `https://` ou `wss://`, sem caminho; `http://127.0.0.1:*` só no modo dev (recusada, o World fica desligado). O prédio sobe pelo WebSocket na mesma origem (`/v1/socket`) |
-| `HABBLAUD_WORLD` | ligado | `0` (`false`, `off`, `no`) desliga o Habblaud World: rotas 404, nada na interface e nada sai |
-| `HABBLAUD_WORLD_DEV` | desligado (`--dev` liga) | `1` aceita o servidor do mundo em `http://127.0.0.1` ou `ws://127.0.0.1` |
+| `PYX_PORT` | `4747` | porta HTTP |
+| `PYX_HOST` | `127.0.0.1` | interface (o Docker usa `0.0.0.0`); fora do loopback, o terminal (e as permissões e mensagens) fica desligado |
+| `PYX_BIND` | — (Compose: `127.0.0.1`) | só Docker: interface do host onde a porta é publicada, repassada ao container; só loopback liga o terminal |
+| `PYX_TERMINAL` | — | `0` desliga o terminal, as permissões e as mensagens pelo escritório (não liga com a porta exposta) |
+| `PYX_CODEX` | ligado | `0` desliga a fonte do Codex |
+| `PYX_CODEX_DIRS` | — | pastas do Codex separadas por vírgula; substitui a detecção (`CODEX_HOME` e `~/.codex*`) |
+| `PYX_CODEX_BIN` | `codex` do PATH | binário do Codex para o `codex queue` (modo Node e `npm run codex:bridge`) |
+| `PYX_MENSAGENS` | ligado (com o terminal) | `0`, `false`, `off` ou `no` desligam só as mensagens pelo escritório |
+| `PYX_CLAUDE_DIRS` | — | config dirs separados por vírgula; substitui a detecção (`~/.claude*` com `projects/` ou `sessions/` + `CLAUDE_CONFIG_DIR`) |
+| `PYX_DATA_DIR` | `~/.pyx` (Docker: `/data`) | estado do PYX (nomes e personagens dos projetos persistidos em `names.json`, linha do tempo em `timeline/`, estatísticas do Meu dia em `stats/`, última verificação de versão em `updates.json`) |
+| `PYX_TIMELINE` | ligado | `0` desliga a gravação da linha do tempo do timelapse |
+| `PYX_UPDATE_CHECK` | ligado | `0` desliga a verificação de versão nova (releases do repositório do `package.json` no GitHub, a cada 6 h) |
+| `PYX_LANG` | idioma do sistema (`LC_ALL`/`LANG`/Intl) | idioma dos textos montados pelo servidor: `pt-BR` ou `fr` (shared/i18n.ts) |
+| `PYX_DEMO` | desligado | `1` liga o modo demonstração ao iniciar |
+| `PYX_IN_DOCKER` | auto (`/.dockerenv`) | `1` = não confere PIDs (são do host) |
+| `PYX_ACCOUNTS` | — | JSON com metadados das contas vindos do host (Docker): `[{id, configDir, mountDir, short, name, email, organization, plan, color, cachedUsage}]`, casados por `id`, `mountDir` ou `configDir` |
+| `PYX_USAGE_DIR` | `~/.pyx/usage` (Docker: `/usage`) | pasta do uso capturado pelo tap de statusline ou pelo mod do Claude Code, relida a cada 5 s |
+| `PYX_ALLOWED_HOSTS` | — | nomes extras aceitos no `Host`/`Origin` (vírgula); `localhost`, `*.localhost` e IPs sempre valem |
+| `PYX_WORLD_URL` | `https://server.habblaud.com` | servidor do PYX World: só `https://` ou `wss://`, sem caminho; `http://127.0.0.1:*` só no modo dev (recusada, o World fica desligado). O prédio sobe pelo WebSocket na mesma origem (`/v1/socket`) |
+| `PYX_WORLD` | ligado | `0` (`false`, `off`, `no`) desliga o PYX World: rotas 404, nada na interface e nada sai |
+| `PYX_WORLD_DEV` | desligado (`--dev` liga) | `1` aceita o servidor do mundo em `http://127.0.0.1` ou `ws://127.0.0.1` |
 
 No hook de permissão (ambiente do Claude Code; os argumentos `--port`/`--timeout` gravados pelo instalador têm
-preferência): `HABBLAUD_PORT` (porta do Habblaud, padrão `4747`), `HABBLAUD_PERMISSION_TIMEOUT` (segundos de espera
-pela resposta no Habblaud, padrão `300`, entre 5 e 1800) e `HABBLAUD_HOOK_DEBUG=1` (conta no stderr o que fez).
+preferência): `PYX_PORT` (porta do PYX, padrão `4747`), `PYX_PERMISSION_TIMEOUT` (segundos de espera
+pela resposta no PYX, padrão `300`, entre 5 e 1800) e `PYX_HOOK_DEBUG=1` (conta no stderr o que fez).
 
 ## Uso do plano (5h e semanal)
 
@@ -511,8 +511,8 @@ Duas fontes, ambas arquivos locais (nada de credenciais nem chamadas de rede); v
 - `statusline` (**recomendada**, `accounts/statusline.ts`): o Claude Code envia ao comando de statusline um JSON
   com `rate_limits` (`five_hour`/`seven_day`: `used_percentage` e `resets_at` em segundos). O
   `scripts/statusline-tap.mjs`, instalado na frente do statusline de cada conta por `npm run usage:install`,
-  grava só esses números em `~/.habblaud/usage/<conta>.json` (casado com a conta pelo `configDir`; senão pelo
-  `accountId`). No Claude Code 2.1.287+ o mod do Habblaud grava o mesmo arquivo (ver abaixo);
+  grava só esses números em `~/.pyx/usage/<conta>.json` (casado com a conta pelo `configDir`; senão pelo
+  `accountId`). No Claude Code 2.1.287+ o mod do PYX grava o mesmo arquivo (ver abaixo);
 - `cache`: o `cachedUsageUtilization` que o próprio Claude Code grava ao rodar `/usage`, relido a cada 60 s.
 
 Sem nenhuma das duas, a conta fica `disabled` ("sem dados de uso"). Números com mais de 30 min aparecem como
@@ -522,20 +522,20 @@ números novos — nunca um 0% inventado.
 ## Mod do Claude Code
 
 O repositório é também um marketplace de plugins do Claude Code (`.claude-plugin/marketplace.json`, detalhes em
-[`mod/README.md`](../mod/README.md)). Do lado do servidor, o mod `habblaud` usa duas coisas:
+[`mod/README.md`](../mod/README.md)). Do lado do servidor, o mod `pyx` usa duas coisas:
 
-- **o arquivo de uso:** em cada `session.start` e `session.measure` ele grava `<HABBLAUD_USAGE_DIR>/<conta>.json`
+- **o arquivo de uso:** em cada `session.start` e `session.measure` ele grava `<PYX_USAGE_DIR>/<conta>.json`
   no formato do tap (`{accountId, configDir, fetchedAt, five_hour, seven_day}`, `resets_at` em segundos, a partir de
   `$.session.usage().rateLimits`) mais `source: "mod"`, que o leitor ignora: para o servidor continua sendo a fonte
   `statusline`. O mod escreve com `$.fs.write`, que não é atômico; por isso `StatuslineUsageReader` ignora uma
   leitura vazia ou pela metade, fica com o último registro bom daquele arquivo e o relê no ciclo seguinte;
 - **`GET /api/mod/summary`** (`modSummary` em `http/app.ts`), perguntado a cada 5 s por sessão que desenha (30 s com
-  o Habblaud fora do ar) e pelo comando `/habblaud`: só contagens e quem espera, montado do snapshot atual. Ficam de
+  o PYX fora do ar) e pelo comando `/pyx`: só contagens e quem espera, montado do snapshot atual. Ficam de
   fora os agentes do demo (que vivem só no snapshot, não no `Office`), quem já encerrou ou entregou e, com
   `?session=` (e `?account=`, se vier), a sessão de quem pergunta: o principal com esse `sessionId` e os subagentes
   dela (o `sessionId` deles é o da sessão que os disparou; por garantia, também quem tem um ancestral dela).
   `answerable` = há pedido de permissão para responder pelo escritório (`AgentInfo.permission`). Sem parâmetros,
-  nada é excluído (é o que o `/habblaud` usa, para os números baterem com a tela). Só `GET`/`HEAD` (senão 405).
+  nada é excluído (é o que o `/pyx` usa, para os números baterem com a tela). Só `GET`/`HEAD` (senão 405).
 
 ## Estrutura
 
@@ -548,7 +548,7 @@ O repositório é também um marketplace de plugins do Claude Code (`.claude-plu
 - `permissions/` — responder pelo escritório (permissões e perguntas): registro dos pedidos (`registry.ts`), rotas (`http.ts`) e a busca da chamada no transcript (`transcript.ts`).
 - `messages/` — mensagens pelo escritório: fila, presença das sessões e prazos (`registry.ts`) e rotas (`http.ts`).
 - `updates/` — verificação de versão nova nas releases do GitHub (`checker.ts`).
-- `world/` — Habblaud World: sessão em `world.json` (`settings.ts`), cliente do servidor do mundo (`client.ts`), ALTCHA (`altcha.ts`), a conta (`service.ts`), as rotas `/api/world/*` (`http.ts`) e o prédio no mundo (`uplink.ts`, com `ids.ts`, `tokens.ts`, `theme.ts` e `signals.ts`).
+- `world/` — PYX World: sessão em `world.json` (`settings.ts`), cliente do servidor do mundo (`client.ts`), ALTCHA (`altcha.ts`), a conta (`service.ts`), as rotas `/api/world/*` (`http.ts`) e o prédio no mundo (`uplink.ts`, com `ids.ts`, `tokens.ts`, `theme.ts` e `signals.ts`).
 
 Testes: `npx vitest run server shared` (fixtures sintéticas em `server/test/fixtures.ts`; os scripts do host —
 tap de statusline, hook de permissão (rodado como processo contra um servidor de teste), instaladores e

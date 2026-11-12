@@ -1,4 +1,4 @@
-// Cartão "Seu prédio" (a janela do Habblaud World, conta aprovada) e a janela "Ver o que foi enviado".
+// Cartão "Seu prédio" (a janela do PYX World, conta aprovada) e a janela "Ver o que foi enviado".
 //
 // O cartão mostra a conexão, a pausa, a parada pedida pelo servidor do mundo (com o motivo) e "Fora do mundo"; o botão
 // "Sair do mundo" pede confirmação em dois cliques, como o "Sair da conta", e explica a diferença para a pausa. Fase 6:
@@ -204,7 +204,7 @@ export class BuildingCard {
 }
 
 /**
- * Janela "Ver o que foi enviado". Fica dentro da janela do Habblaud World (um <dialog> dentro de outro): aberta como
+ * Janela "Ver o que foi enviado". Fica dentro da janela do PYX World (um <dialog> dentro de outro): aberta como
  * modal, ela sobe para o topo da top layer sem fechar a do World, e Esc ou um clique fora fecham só ela.
  */
 export class SentDialog {

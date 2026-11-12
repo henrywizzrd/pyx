@@ -1,4 +1,4 @@
-// Rotas locais do Habblaud World (/api/world/*, server/world/http.ts): o que a página do Habblaud pede ao servidor
+// Rotas locais do PYX World (/api/world/*, server/world/http.ts): o que a página do PYX pede ao servidor
 // local, que fala com o servidor do mundo por ela. Só na porta local, com Host local (nunca pela porta do celular), e
 // tudo o que age pela conta só com a trava do terminal (bind local). O token do dispositivo nunca chega aqui.
 //
@@ -37,7 +37,7 @@
 //                                                some daqui e o status volta sem conta, com lastError
 //                                                `account_deleted`)
 //   GET  /api/world/export                   → 200 WorldExport (o JSON da conta como veio de GET /v1/me/export), anexo
-//                                                (habblaud-world-dados.json); uma vez por dia (429 rate_limited); só
+//                                                (pyx-world-dados.json); uma vez por dia (429 rate_limited); só
 //                                                pela própria página, como o stream (gasta a cota do dia)
 //   PUT  /api/world/visibility               aceita também `notifyInactivity` (opcional): o aviso por e-mail antes
 //                                                de retirar o prédio por inatividade
@@ -167,7 +167,7 @@ export interface WorldBuildingStatus {
   lastAck?: { ok: boolean; error?: UplinkAckError };
   /**
    * O servidor do mundo fechou a conexão e o prédio parou: `banned`/`suspended` (conta), `update` (versão antiga: atualize),
-   * `other-device` (a conta conectou em outro lugar; volta com "Retomar" ou ao reabrir o Habblaud), `waiting`,
+   * `other-device` (a conta conectou em outro lugar; volta com "Retomar" ou ao reabrir o PYX), `waiting`,
    * `no_player`, `unauthorized` (a conta mudou do outro lado; o estado daqui é atualizado).
    */
   stopped?: WorldBuildingStop;
@@ -182,7 +182,7 @@ export interface WorldBuildingStatus {
   unverified?: true;
   /** Likes recebidos hoje (veja WorldBuildingMeta.likesToday). */
   likesToday?: number;
-  /** Batidas na porta desde que este Habblaud abriu (veja WorldBuildingMeta.knocks). */
+  /** Batidas na porta desde que este PYX abriu (veja WorldBuildingMeta.knocks). */
   knocks?: number;
   /** "Enquanto você estava fora" ainda não visto (↓ `away.summary` ou /v1/me): visitas, likes e carimbos, sem quem. */
   summary?: AwaySummary;
@@ -209,7 +209,7 @@ export interface WorldBuildingMeta {
   /** Likes recebidos hoje (↓ `likes.today` ou /v1/me; Fase 5): o chip "❤️ 3 hoje" da barra. */
   likesToday?: number;
   /**
-   * Batidas na porta desde que este Habblaud abriu (↓ `knock {}`, sem nome; só com `knocks` ligado na visibilidade):
+   * Batidas na porta desde que este PYX abriu (↓ `knock {}`, sem nome; só com `knocks` ligado na visibilidade):
    * a página mostra o aviso quando o número sobe.
    */
   knocks?: number;
@@ -232,11 +232,11 @@ export interface WorldLastUplink {
  */
 export interface WorldMeta {
   /**
-   * A seção aparece: HABBLAUD_WORLD não é 0 e o servidor do mundo foi aceito (o padrão, server.habblaud.com, ou uma
-   * HABBLAUD_WORLD_URL válida). Com a URL recusada o recurso está desligado e nada do World aparece na interface.
+   * A seção aparece: PYX_WORLD não é 0 e o servidor do mundo foi aceito (o padrão, server.habblaud.com, ou uma
+   * PYX_WORLD_URL válida). Com a URL recusada o recurso está desligado e nada do World aparece na interface.
    */
   enabled: boolean;
-  /** Servidor do mundo aceito (o padrão ou HABBLAUD_WORLD_URL válida). */
+  /** Servidor do mundo aceito (o padrão ou PYX_WORLD_URL válida). */
   configured: boolean;
   state: WorldState;
   /** O prédio no mundo (só com a conta aprovada e o personagem criado). */
@@ -383,7 +383,7 @@ export interface WorldSceneSnapshot {
 
 /** GET /api/world/status (e a resposta de verify, login e logout). */
 export interface WorldStatus {
-  /** Dá para agir pela conta neste Habblaud (trava do terminal ligada: acesso só pelo próprio computador). */
+  /** Dá para agir pela conta neste PYX (trava do terminal ligada: acesso só pelo próprio computador). */
   available: boolean;
   configured: boolean;
   state: WorldState;
@@ -400,7 +400,7 @@ export interface WorldStatus {
   building?: WorldBuildingStatus;
   /** Tema guardado para o prédio (PUT /api/world/theme); ausente = 'auto'. */
   theme?: WorldThemeChoice;
-  /** Quem esta conta bloqueou (/v1/me; Fase 5): Configurações › Habblaud World › Bloqueados. */
+  /** Quem esta conta bloqueou (/v1/me; Fase 5): Configurações › PYX World › Bloqueados. */
   blocked?: WorldBlockedPlayer[];
 }
 
@@ -420,9 +420,9 @@ export interface WorldErrorResponse {
  * unsupported_media_type, method_not_allowed, not_found e internal (500: erro do próprio servidor local).
  */
 export const WORLD_LOCAL_ERROR_CODES = [
-  'not_configured', // 409: sem servidor do mundo aceito (HABBLAUD_WORLD_URL recusada)
+  'not_configured', // 409: sem servidor do mundo aceito (PYX_WORLD_URL recusada)
   'local_only', // 403: pela porta do celular ou com Host que não é local
-  'terminal_off', // 403: trava do terminal desligada (porta exposta na rede ou HABBLAUD_TERMINAL=0)
+  'terminal_off', // 403: trava do terminal desligada (porta exposta na rede ou PYX_TERMINAL=0)
   'not_logged_in', // 401: ação da conta sem ter entrado
   'session_expired', // em lastError: o servidor do mundo recusou o token (revogado ou vencido) e a sessão foi apagada
   'invalid_email', // 400

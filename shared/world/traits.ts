@@ -1,5 +1,5 @@
 // Traços de personalidade: os mesmos para os personagens do escritório (client/src/world/social/persona.ts, que sorteia
-// 2 ou 3 por semente) e para o jogador do Habblaud World (que escolhe 2 ou 3). Os ids e os pares que não combinam
+// 2 ou 3 por semente) e para o jogador do PYX World (que escolhe 2 ou 3). Os ids e os pares que não combinam
 // vêm do protocolo; aqui ficam os rótulos (tr) e a validação da escolha do jogador. Puro: sem Node nem DOM.
 //
 // Os rótulos são substantivos ("Competição", "Vaidade"): não dependem do gênero de ninguém.

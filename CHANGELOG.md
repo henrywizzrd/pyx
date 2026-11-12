@@ -1,7 +1,7 @@
 # Novidades
 
-O que entrou em cada versão do Habblaud. Cada versão tem a sua seção aqui, e o texto dela vira as notas da
-[release no GitHub](https://github.com/marmottajr/habblaud/releases) (`npm run release`), que o Habblaud abre em
+O que entrou em cada versão do PYX. Cada versão tem a sua seção aqui, e o texto dela vira as notas da
+[release no GitHub](https://github.com/henrywizzrd/pyx/releases) (`npm run release`), que o PYX abre em
 **Configurações › Sobre › Ver o que mudou**.
 
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), e os números seguem o
@@ -24,51 +24,51 @@ do meio (0.**3**.0).
 ### Corrigido
 
 - **Cidade: entrar e curtir voltaram a funcionar depois de deixar a aba em segundo plano.** Depois de meio minuto com
-  o Habblaud em outra aba ou janela, o personagem parava de mandar a posição ao Habblaud World: andava na tela, mas
+  o PYX em outra aba ou janela, o personagem parava de mandar a posição ao PYX World: andava na tela, mas
   "Entrar" e curtir diziam para chegar mais perto da porta.
 
 ## [1.0.1] - 2026-10-16
 
 ### Corrigido
 
-- **Cidade: as teclas voltaram a andar.** Na 1.0.0, com os popups de lançamento e a janela do Habblaud World na
+- **Cidade: as teclas voltaram a andar.** Na 1.0.0, com os popups de lançamento e a janela do PYX World na
   página, WASD, as setas e os atalhos do escritório paravam de responder mesmo com tudo fechado: um `<dialog>`
   fechado continua na página e era tomado por um modal aberto. Só os diálogos abertos contam agora.
 
 ## [1.0.0] - 2026-10-16
 
 Por que 1.0: o escritório (salas, personagens, subagentes, uso por conta, terminal, timelapse, celular com login) está
-estável há várias versões, e o Habblaud World chega inteiro: conta, personagem, prédio, cidade, visitas e o social
+estável há várias versões, e o PYX World chega inteiro: conta, personagem, prédio, cidade, visitas e o social
 leve. Para atualizar: `git pull` e `npm run docker:up`.
 
-### Habblaud World
+### PYX World
 
-A cidade online do Habblaud está no ar: cada Habblaud vira um prédio, aceso ao vivo enquanto os agentes trabalham, e
+A cidade online do PYX está no ar: cada PYX vira um prédio, aceso ao vivo enquanto os agentes trabalham, e
 cada pessoa passeia pela cidade com um personagem. **Vem ligado por padrão**, apontando para `server.habblaud.com`;
-**nada sai do computador até você criar a conta** e entrar, e `HABBLAUD_WORLD=0` desliga tudo (esconde até as
+**nada sai do computador até você criar a conta** e entrar, e `PYX_WORLD=0` desliga tudo (esconde até as
 rotas). O acesso é liberado por lista de espera. O que pode sair e o que nunca sai está em
-[`docs/world/privacidade.md`](docs/world/privacidade.md); o README tem a seção **Habblaud World** completa, nos quatro
+[`docs/world/privacidade.md`](docs/world/privacidade.md); o README tem a seção **PYX World** completa, nos quatro
 idiomas.
 
-- **Configurar e testar:** sem `HABBLAUD_WORLD_URL`, o servidor oficial (`https://server.habblaud.com`; o `npm run
+- **Configurar e testar:** sem `PYX_WORLD_URL`, o servidor oficial (`https://server.habblaud.com`; o `npm run
   docker:up` e o log do servidor dizem "(padrão)"); definida, vale a definida (só `https://` ou `wss://`; recusada, o
-  World fica desligado, com o motivo no log). `HABBLAUD_WORLD=0` desliga tudo, e `HABBLAUD_WORLD_DEV=1` aceita um
+  World fica desligado, com o motivo no log). `PYX_WORLD=0` desliga tudo, e `PYX_WORLD_DEV=1` aceita um
   servidor do mundo local sem TLS em `http://127.0.0.1:<porta>` (o `npm run dev` já aceita) ou, de dentro do Docker, em
   `http://host.docker.internal:<porta>`. O `docker-compose.yml` repassa as três variáveis e liga `host.docker.internal`
   ao host (`extra_hosts` com `host-gateway`, inofensivo no macOS), e o `npm run docker:up` termina dizendo se o World
   está ligado e para qual servidor. O build grava `dist/build.json` com o commit e se a cópia estava modificada (vai na
   primeira mensagem da conexão do prédio).
-- **Janela própria:** o Habblaud World tem um botão só dele na barra do topo (o ícone de cidade, ao lado de
+- **Janela própria:** o PYX World tem um botão só dele na barra do topo (o ícone de cidade, ao lado de
   Configurações; só aparece com o servidor do mundo configurado) e abre num modal só dele, fora das Configurações: o
   prédio em pixels, o estado da conta no cabeçalho e tudo o que segue num corpo rolável. O chip "no mundo" ao lado da
   versão, os popups de lançamento e o aviso "Enquanto você estava fora" abrem a mesma janela, na tela certa.
-- **Conta:** na janela do Habblaud World. **Criar conta** (e-mail e senha de 12
+- **Conta:** na janela do PYX World. **Criar conta** (e-mail e senha de 12
   caracteres ou mais, o resumo do que sai e do que nunca sai do computador, a linha dos dados verdadeiros e o aceite
-  obrigatório dos Termos de Uso e da Política de Privacidade; o desafio anti-robô é resolvido pelo próprio Habblaud) ou
+  obrigatório dos Termos de Uso e da Política de Privacidade; o desafio anti-robô é resolvido pelo próprio PYX) ou
   **Já tenho conta**; código de 6 dígitos com reenvio; **Esqueci a senha**; **Dispositivos** (até 3, com revogar) e
-  sair. Na lista de espera, só o aviso, sem posição nem previsão, e o Habblaud aberto confere sozinho a cada 30 minutos
+  sair. Na lista de espera, só o aviso, sem posição nem previsão, e o PYX aberto confere sozinho a cada 30 minutos
   se o acesso foi liberado. Tudo só pelo próprio computador: nunca pela porta do celular, e o que age pela conta só com
-  o acesso local (a trava do terminal). O token do dispositivo fica em `~/.habblaud/world.json` (permissão 600; no
+  o acesso local (a trava do terminal). O token do dispositivo fica em `~/.pyx/world.json` (permissão 600; no
   Docker, no volume `/data`) e nunca vai ao navegador, ao snapshot, aos logs nem à URL.
 - **Nome de jogador escolhido no cadastro (fica reservado na lista de espera):** o cadastro pede o nome de jogador
   (3 a 20 caracteres, único no mundo) junto com o e-mail e a senha, conferido na hora e, se já estiver em uso, com o
@@ -79,7 +79,7 @@ idiomas.
   último login com senha, para auditoria (só a administração vê; apagados com a conta; incluídos em "Baixar meus
   dados"), e nenhum outro.
 - **Popups de lançamento:** três avisos em janela modal, por cima do escritório (e de Configurações). **Novidade:
-  Habblaud World**, para quem ainda não tem conta, com o botão **Criar conta**: "Agora não" o traz de volta em 3 dias
+  PYX World**, para quem ainda não tem conta, com o botão **Criar conta**: "Agora não" o traz de volta em 3 dias
   (no máximo 3 vezes), "Não mostrar de novo" encerra e, com a conta criada, ele não volta. **Você está na lista de
   espera**, logo depois do cadastro (ou ao abrir a página já na espera), uma vez por navegador. **Acesso liberado!**,
   quando chega a sua vez e o personagem ainda não existe, com **Criar personagem** levando direto à tela dele. Nenhum
@@ -89,8 +89,8 @@ idiomas.
   lista de espera. Se a moderação trocar o nome, a seção pede um nome novo, que entra sem esperar os 30 dias.
 - **Visibilidade do prédio:** ao vivo ou discreto, fechado a visitas, esconder o país, tokens (só em faixas), placar,
   compactações e **Avisar quando baterem na porta** (desligado por padrão).
-- **Conta e dados** (nova tela da janela do Habblaud World): o interruptor **Avisar por e-mail antes de retirar
-  meu prédio por inatividade**; **Baixar meus dados**, que salva `habblaud-world-dados.json` com o que o mundo guarda da
+- **Conta e dados** (nova tela da janela do PYX World): o interruptor **Avisar por e-mail antes de retirar
+  meu prédio por inatividade**; **Baixar meus dados**, que salva `pyx-world-dados.json` com o que o mundo guarda da
   conta (uma vez por dia); e **Excluir conta** em três etapas: o que some e quando (o prédio e o perfil na hora; a
   conta, os likes, os bloqueios, as denúncias feitas e os dispositivos do banco em 7 dias; dos backups, em até 30), a
   confirmação, que manda um código ao e-mail, e o código. Com a conta excluída (daqui ou de outro computador), a conexão
@@ -98,10 +98,10 @@ idiomas.
 - **Seu prédio no mundo:** com o acesso liberado e o personagem criado, o cartão **Seu prédio** mostra se o prédio está
   conectado, reconectando, pausado ou fora do mundo (ou se ainda falta o personagem), quantos andares e agentes ele
   tem, quando saiu a última remessa e, se o mundo recusar uma remessa, o motivo. Quando o servidor do mundo para o
-  prédio, o cartão diz por quê: **Atualize o Habblaud** (versão antiga), **Conectado em outro computador** (com
+  prédio, o cartão diz por quê: **Atualize o PYX** (versão antiga), **Conectado em outro computador** (com
   **Trazer para este computador**), conta suspensa ou banida (com **Recorrer por e-mail**, que abre um e-mail para
-  privacidade@habblaud.com com o id da conta no assunto) ou conta excluída. Um prédio marcado como **não verificado**
-  mostra o selo e **Contestar por e-mail**, e o mundo em manutenção aparece como **Em manutenção** (o Habblaud tenta de
+  privacidade@pyx.com com o id da conta no assunto) ou conta excluída. Um prédio marcado como **não verificado**
+  mostra o selo e **Contestar por e-mail**, e o mundo em manutenção aparece como **Em manutenção** (o PYX tenta de
   novo sozinho, com espera). **Pausar** interrompe o envio na hora e apaga o prédio, guardando o lote; **Retomar**
   acende de novo. **Sair do mundo** (em dois cliques, com a diferença para a pausa ao lado) retira o prédio na hora e
   libera o lote; a conta e o personagem continuam, e **Voltar ao mundo** cria um prédio novo, em outro lote (sair em
@@ -110,7 +110,7 @@ idiomas.
   computador. O tema escolhido em **Aparência › Tema do escritório** também vale para o prédio (e o tema guardado para o
   prédio vale para o escritório), e a barra do topo ganha o selo "🏙️ no mundo" / "⏸ pausado" / "⚠️ parado", que abre
   a seção (some na barra apertada e no celular).
-- **O prédio sobe ao mundo:** com a conta liberada e o personagem criado, o Habblaud abre uma conexão (WebSocket) com o
+- **O prédio sobe ao mundo:** com a conta liberada e o personagem criado, o PYX abre uma conexão (WebSocket) com o
   servidor do mundo e manda o prédio ao vivo: um andar por sala com alguém presente e, por agente, só um id aleatório,
   principal ou subagente, a ferramenta, o status, um nome sorteado e a aparência; mais o tema, as tarefas concluídas no
   dia em faixa, os tokens do prédio arredondados (desligável) e, se você ligar, as compactações. Os ids dos andares e
@@ -120,7 +120,7 @@ idiomas.
   excluída, versão antiga, conectada em outro lugar). Agentes do modo demonstração nunca sobem. As tarefas e as
   compactações são contadas também com o prédio pausado ou sem conexão, e vão na remessa seguinte.
 - **A cidade (botão Mundo):** com a cena disponível (`meta.world.scene.available`), o botão **Mundo** ao lado do
-  Timelapse troca o escritório pela cidade do Habblaud World, em pixel art 3/4 no mesmo estilo: quarteirões de 6 lotes
+  Timelapse troca o escritório pela cidade do PYX World, em pixel art 3/4 no mesmo estilo: quarteirões de 6 lotes
   com calçada, meio-fio, postes, árvores, faixas de pedestres e a praça central com a fonte, os bancos e o totem; lotes
   vazios viram jardins (parque, lago, pomar, café). Cada prédio tem a altura dos projetos abertos (até 12 andares
   desenhados, com placa "+N" acima disso), janelas acesas na proporção dos agentes trabalhando e piscando em âmbar as de
@@ -143,7 +143,7 @@ idiomas.
   fecha junto com a cena. Conta banida, suspensa ou excluída (ou o prédio parado por versão antiga ou por outro
   computador): o botão Mundo some; ele também só aparece pela página do próprio computador (nunca pela porta do celular
   nem sem o acesso só local).
-- **A cidade pelo servidor local:** com a cena aberta, o Habblaud pede ao servidor do mundo o pedaço da cidade em volta
+- **A cidade pelo servidor local:** com a cena aberta, o PYX pede ao servidor do mundo o pedaço da cidade em volta
   do seu personagem (`view`) pela mesma conexão do prédio e repassa ao navegador por `GET /api/world/stream` (SSE: o
   estado inteiro ao abrir, depois cada mudança na ordem); fechada a cena, avisa (`view.off`) e nada mais desce. Prédios
   por chunk com revisão (um salto pede a área de novo), jogadores por perto, minimapa e a sua posição ficam só em
@@ -170,7 +170,7 @@ idiomas.
   ficam numa chave à parte e somem ao sair. **Ver como os outros veem** (no cartão **Seu prédio** e na porta do seu
   prédio) entra no seu próprio prédio. **Para o dono:** o selo do topo ganha "👀 N" e o cartão **Seu prédio**, "N
   visitantes agora" (só a contagem, nunca quem); o primeiro visitante de cada conexão dá o aviso "Alguém entrou no seu
-  prédio", desligável em **Habblaud World › Avisar quando alguém visitar**. Pelo servidor local, o
+  prédio", desligável em **PYX World › Avisar quando alguém visitar**. Pelo servidor local, o
   stream da cena repassa o interior (`building`, `building.patch` com a revisão conferida e `resync {building}` num
   salto) e os visitantes (`visitors`, também em `meta.world.building.visitors`).
 - **O social leve, sem nenhum texto livre:** na cidade, **L** (ou o botão ❤️ que aparece perto da porta, até 4 passos)
@@ -188,7 +188,7 @@ idiomas.
   ficam no canto, só com os ícones. **No escritório:** o chip da barra ganha "❤️ N hoje"; ao conectar, o cartão
   **Enquanto você estava fora** (visitas, likes e os carimbos deixados na portaria, sem quem) aparece no canto e também
   em **Seu prédio**, com o código do prédio para mandar a um amigo; **Avisar quando baterem na porta** (Visibilidade,
-  desligado por padrão) mostra "Alguém bateu na porta do seu prédio"; **Habblaud World › Bloqueados**
+  desligado por padrão) mostra "Alguém bateu na porta do seu prédio"; **PYX World › Bloqueados**
   lista quem você bloqueou, com **Desbloquear**. **Pelo servidor local:** `POST /api/world/summary/seen` e
   `/api/world/unblock`, e os comandos `like`, `unlike`, `greet`, `block`, `unblock`, `report`, `stamp`, `teleport`,
   `knock` e `summary.seen` na cena, conferidos campo a campo.
@@ -197,12 +197,12 @@ idiomas.
   (`POST /api/world/pause` e `/resume`, que param o envio antes de responder; `/leave`, que só responde depois de o
   servidor do mundo retirar o prédio; `/join`, que pede a volta antes de reconectar; `PUT /api/world/theme`, com o
   automático virando o tema do dia; `GET /api/world/last-uplink`, a última remessa guardada em
-  `~/.habblaud/world-last-uplink.json`, permissão 600); e a conta e os dados (`POST /api/world/delete-account` e
+  `~/.pyx/world-last-uplink.json`, permissão 600); e a conta e os dados (`POST /api/world/delete-account` e
   `/delete-account/confirm`, que só responde depois de fechar o prédio e apagar o `world.json`; `GET /api/world/export`,
   o JSON da conta como anexo, só pela própria página). Uma retomada que o servidor do mundo não confirmou tenta de novo
   com a espera da reconexão. O status do World e o snapshot (`meta.world.building`) trazem o resumo do prédio:
   conectado, pausado, fora do mundo, parado, andares, agentes e a última remessa.
-- **Protocolo aberto e transparência:** `shared/world/protocol.ts` e `schema.json` definem tudo o que o Habblaud troca
+- **Protocolo aberto e transparência:** `shared/world/protocol.ts` e `schema.json` definem tudo o que o PYX troca
   com o World (a Fase 4 acrescenta os avisos da porta, os visitantes do dono e o `resync` do prédio; a Fase 5, os
   nomes do social leve: carimbos, metas da cidade, likes do dia, o resumo "enquanto você estava fora", bater na porta e
   o código do prédio; a Fase 6, o `goodbye` `deleted`, o erro `maintenance`, a recusa `implausible` do pacote, o
@@ -223,9 +223,9 @@ idiomas.
 
 ## [0.11.0] - 2026-10-13
 
-Para atualizar: `git pull` e `npm run docker:up` (ele também atualiza o mod do Habblaud nas contas). O acesso pelo
+Para atualizar: `git pull` e `npm run docker:up` (ele também atualiza o mod do PYX nas contas). O acesso pelo
 celular é opcional e fica desligado até você rodar `npm run remote:setup`; o passo a passo está no README, em
-"Celular com login e HTTPS". O Novo agente precisa de `HABBLAUD_PTY=1` no `.env`.
+"Celular com login e HTTPS". O Novo agente precisa de `PYX_PTY=1` no `.env`.
 
 ### Adicionado
 
@@ -235,21 +235,21 @@ celular é opcional e fica desligado até você rodar `npm run remote:setup`; o 
   `<nome>.local` rodando como serviço. O celular entra numa **segunda porta** (443 se estiver livre, senão 4748), que
   só é publicada depois do setup: toda requisição nela exige login, e por padrão o celular **aprova e recusa pedidos
   de permissão**; mensagens, terminal (com as **Entregas**: o que cada agente terminou, com resumo e anexos) e o
-  Novo agente só com `HABBLAUD_REMOTE_ALLOW`. A porta 4747 continua só no computador e sem login. **Configurações ›
+  Novo agente só com `PYX_REMOTE_ALLOW`. A porta 4747 continua só no computador e sem login. **Configurações ›
   Acesso pelo celular › Sair** encerra o login daquele aparelho (uma cópia do cookie também deixa de valer). Contribuição de
   @jasminaladdn (#96).
-- **Novo agente (botão + na barra do topo, opt-in com `HABBLAUD_PTY=1`):** começa uma sessão do Claude Code em
+- **Novo agente (botão + na barra do topo, opt-in com `PYX_PTY=1`):** começa uma sessão do Claude Code em
   segundo plano no computador (`claude --bg`), na pasta escolhida (os projetos recentes vêm sugeridos), com o pedido
-  escrito e anexos; ela aparece no escritório e recebe mensagens e permissões pelo Habblaud. Numa pasta que o Claude
+  escrito e anexos; ela aparece no escritório e recebe mensagens e permissões pelo PYX. Numa pasta que o Claude
   Code ainda não conhece, abre a tela de sessão nova do app do Claude preenchida. No Docker, quem começa é o auxiliar
   do host (`npm run codex:bridge`, que agora roda também sem o Codex). Pelo celular, também precisa de `spawn` em
-  `HABBLAUD_REMOTE_ALLOW`.
+  `PYX_REMOTE_ALLOW`.
 - **Ditado** no Novo agente e na caixa de mensagem: o navegador grava e o **Whisper local** transcreve (`whisper-cli`
   + `ffmpeg` + um modelo multilíngue); a voz não sai do computador. Sem eles, o botão não aparece.
-- **Espera de até 24 h pelo escritório:** `HABBLAUD_PERMISSION_TIMEOUT` aceita até 86400 s (antes 1800, e o plugin
+- **Espera de até 24 h pelo escritório:** `PYX_PERMISSION_TIMEOUT` aceita até 86400 s (antes 1800, e o plugin
   cortava em 330 s). O padrão continua 5 min. Numa espera longa, sem nenhuma página que responda por 5 min (e sem o
   celular com login configurado para responder), o pedido volta ao terminal.
-- **Mensagens para sessões do app desktop do Claude:** o plugin `habblaud-mensagens` também pergunta ao Habblaud nas
+- **Mensagens para sessões do app desktop do Claude:** o plugin `pyx-mensagens` também pergunta ao PYX nas
   sessões com `CLAUDE_CODE_ENTRYPOINT=claude-desktop` (antes só nas que tinham terminal na tela).
 - Pedido esperando sem botões no escritório (o hook já devolveu ao terminal, ou a sessão abriu sem o plugin): o
   rodapé do terminal diz para responder no Claude Code (ou no Codex).
@@ -287,7 +287,7 @@ celular é opcional e fica desligado até você rodar `npm run remote:setup`; o 
 ## [0.10.0] - 2026-10-13
 
 Para atualizar: `git pull` e `npm run docker:up`. A interface segue o idioma do navegador (ou Configurações › Idioma).
-Os textos que o servidor monta continuam em português; para outro idioma, defina `HABBLAUD_LANG` (`en`, `es` ou `fr`)
+Os textos que o servidor monta continuam em português; para outro idioma, defina `PYX_LANG` (`en`, `es` ou `fr`)
 no `.env` antes do `docker:up`. Em outubro, o tema automático já deixa o escritório no clima de Halloween; para o
 visual de sempre, escolha **Nenhum** em Configurações › Aparência.
 
@@ -301,8 +301,8 @@ visual de sempre, escolha **Nenhum** em Configurações › Aparência.
 - **Interface em inglês, espanhol e francês.** Os textos passam por `tr()` (`shared/i18n.ts`), com o português como
   língua de origem: um texto sem tradução continua em PT. A interface segue o navegador e pode ser fixada em
   **Configurações › Idioma**. Os textos montados pelo servidor (atividades, avisos, terminal, logs e scripts de
-  instalação) seguem `HABBLAUD_LANG` (`pt-BR`, `en`, `es` ou `fr`) e, sem ele, o idioma do sistema, menos o inglês
-  (muita máquina e todo container vêm em inglês por padrão): para o servidor em inglês, `HABBLAUD_LANG=en`.
+  instalação) seguem `PYX_LANG` (`pt-BR`, `en`, `es` ou `fr`) e, sem ele, o idioma do sistema, menos o inglês
+  (muita máquina e todo container vêm em inglês por padrão): para o servidor em inglês, `PYX_LANG=en`.
   `npm run i18n:check` lista os textos ainda sem tradução. O francês veio da comunidade (#67).
 - **README em inglês**, com versões em português (`README.pt-BR.md`), espanhol e francês, e a linha de idiomas no
   topo de cada um.
@@ -310,16 +310,16 @@ visual de sempre, escolha **Nenhum** em Configurações › Aparência.
 ## [0.9.0] - 2026-10-13
 
 Para atualizar: `git pull` e `npm run docker:up`. O terminal interativo vem desligado e só funciona fora do Docker:
-`npm install`, `npm run build` e `HABBLAUD_PTY=1 npm start` (leia antes o aviso em "Privacidade e segurança" no
+`npm install`, `npm run build` e `PYX_PTY=1 npm start` (leia antes o aviso em "Privacidade e segurança" no
 README).
 
 ### Adicionado
 
-- **Terminal interativo (opt-in, `HABBLAUD_PTY=1`):** o Claude Code de verdade numa janela do escritório, com abas para
+- **Terminal interativo (opt-in, `PYX_PTY=1`):** o Claude Code de verdade numa janela do escritório, com abas para
   os agentes do mesmo projeto. **Nova sessão** abre um Claude Code na pasta da sala; **Assumir daqui** encerra a sessão
   aberta noutro terminal e continua a mesma conversa aqui (`claude --resume`); **Encerrar** e o X das abas fecham a
   sessão, aqui ou noutro terminal. Só para sessões do Claude Code (nem Codex nem demo). Antes de encerrar um processo de
-  fora, o Habblaud confere que o PID ainda é aquele Claude Code. Usa `node-pty` e `@xterm/headless` (dependências
+  fora, o PYX confere que o PID ainda é aquele Claude Code. Usa `node-pty` e `@xterm/headless` (dependências
   opcionais); a tela volta inteira ao reconectar ou trocar de aba, com os modos que o Claude ligou. Ao iniciar, abre
   um terminal de teste: se o `node-pty` ou o `claude` não funcionarem, o recurso fica desligado, com o motivo no log
   (no macOS, antes ele corrige a permissão de execução que falta no `spawn-helper` do `node-pty` 1.1.0).
@@ -344,7 +344,7 @@ README).
 - Salvar um personagem ou voltar ao sorteio não fecha mais outra edição aberta enquanto a resposta chega, nem mostra
   nela um erro da edição anterior.
 - Uma linha enorme numa conversa, ou uma linha que nunca fechava, ficava inteira na memória e a leitura
-  ia ficando mais lenta. Uma linha acima de 8 MB agora é ignorada, e o Habblaud segue na linha seguinte.
+  ia ficando mais lenta. Uma linha acima de 8 MB agora é ignorada, e o PYX segue na linha seguinte.
 - Sessões do Codex revertidas passam a mostrar o turno atual no escritório e no terminal, mesmo quando o arquivo da
   conversa anterior continua no disco.
 - No timelapse, a linha do tempo do agente deixa de mostrar o que aconteceu depois do momento reproduzido quando se
@@ -363,7 +363,7 @@ README).
 
 Para atualizar: `git pull` e `npm run docker:up`. Renomear salas e editar o personagem funcionam só pelo próprio
 computador (a mesma trava do terminal). Os nomes das salas ficam em `rooms.json` e os personagens em `names.json`, na
-pasta de dados do Habblaud; voltar para a 0.7 faz os personagens escolhidos sumirem na primeira gravação.
+pasta de dados do PYX; voltar para a 0.7 faz os personagens escolhidos sumirem na primeira gravação.
 
 ### Adicionado
 
@@ -378,7 +378,7 @@ pasta de dados do Habblaud; voltar para a 0.7 faz os personagens escolhidos sumi
   o cabeçalho de uma sala muda a ordem das salas (no prédio elas ficam onde estão). A ordem fica guardada no
   navegador; a dos agentes vai pela sessão do Claude Code e sobrevive a retomar a sessão.
 - **Renomear sala:** botão direito numa sala (na lista lateral ou no escritório) abre um campo para dar outro nome a
-  ela; vazio volta ao nome da pasta. O nome fica no servidor (`rooms.json`, na pasta de dados do Habblaud), por pasta:
+  ela; vazio volta ao nome da pasta. O nome fica no servidor (`rooms.json`, na pasta de dados do PYX), por pasta:
   vale em qualquer navegador e sobrevive a reinícios. Na gaveta da sala, um lápis ao lado do nome abre o mesmo campo.
   Só pelo próprio computador; as salas de demonstração não mudam.
 - **Editar o personagem de um projeto.** Nos detalhes do agente principal, o lápis ao lado do nome abre um editor
@@ -394,10 +394,10 @@ pasta de dados do Habblaud; voltar para a 0.7 faz os personagens escolhidos sumi
 ### Corrigido
 
 - No Windows, as mensagens ao Codex procuravam `codex` no PATH e achavam o script que o npm instala ao lado do
-  executável: o Habblaud dizia que as mensagens estavam ligadas, mas cada entrega falhava, porque o script não roda
-  sem shell. Agora a busca é pelo `codex.exe`. Com o Codex instalado só pelo npm, aponte `HABBLAUD_CODEX_BIN` para um
+  executável: o PYX dizia que as mensagens estavam ligadas, mas cada entrega falhava, porque o script não roda
+  sem shell. Agora a busca é pelo `codex.exe`. Com o Codex instalado só pelo npm, aponte `PYX_CODEX_BIN` para um
   `codex.exe`.
-- No Windows, o comando de statusline que já existia antes do `npm run usage:install` (o Habblaud o guarda e
+- No Windows, o comando de statusline que já existia antes do `npm run usage:install` (o PYX o guarda e
   continua rodando) era executado pelo `cmd.exe`, e o que funcionava no Claude Code (aspas simples, variáveis, pipes)
   quebrava. Agora ele roda no Git Bash, como no Claude Code: o de `CLAUDE_CODE_GIT_BASH_PATH` ou o da instalação do
   Git. Sem o Git Bash, continua no `cmd.exe`.
@@ -409,8 +409,8 @@ pasta de dados do Habblaud; voltar para a 0.7 faz os personagens escolhidos sumi
 ## [0.7.0] - 2026-10-09
 
 Para atualizar: `git pull` e `npm run docker:up` (o Codex aparece sozinho, se houver uma pasta `~/.codex`). Para ver o
-Codex ao vivo e aprovar pelo escritório: `npm run codex:install` e aprove os hooks do Habblaud em `/hooks` no Codex
-(reinicie o Codex antes, se ele estava aberto). Com o Habblaud no Docker, para mandar mensagens ao Codex deixe
+Codex ao vivo e aprovar pelo escritório: `npm run codex:install` e aprove os hooks do PYX em `/hooks` no Codex
+(reinicie o Codex antes, se ele estava aberto). Com o PYX no Docker, para mandar mensagens ao Codex deixe
 `npm run codex:bridge` rodando no Mac.
 
 ### Adicionado
@@ -419,11 +419,11 @@ Codex ao vivo e aprovar pelo escritório: `npm run codex:install` e aprove os ho
   Claude Code: cada projeto é uma sala (a mesma do Claude Code, quando os dois estão no mesmo projeto), cada sessão um
   personagem com o selo **CODEX**, com atividade, subagentes, terminal, histórico, uso de 5 horas e semanal (com a
   idade dos números e "sem cota" quando acabam os créditos) e o Meu dia (só tokens: o Codex não informa custo). Sem
-  instalar nada, o Habblaud lê os arquivos do Codex (`~/.codex`, `CODEX_HOME` ou `~/.codex*`; `HABBLAUD_CODEX_DIRS`
-  escolhe as pastas e `HABBLAUD_CODEX=0` desliga). Uma sessão entra com a primeira mensagem, que é quando o Codex diz
+  instalar nada, o PYX lê os arquivos do Codex (`~/.codex`, `CODEX_HOME` ou `~/.codex*`; `PYX_CODEX_DIRS`
+  escolhe as pastas e `PYX_CODEX=0` desliga). Uma sessão entra com a primeira mensagem, que é quando o Codex diz
   a pasta do projeto (uma CLI aberta e ainda sem conversa não aparece). No Docker, só `sessions/`,
   `archived_sessions/` e `thread-writer-locks/` são montadas, somente leitura.
-- **Codex ao vivo e aprovar pelo escritório:** `npm run codex:install` acrescenta os hooks do Habblaud no
+- **Codex ao vivo e aprovar pelo escritório:** `npm run codex:install` acrescenta os hooks do PYX no
   `~/.codex/hooks.json` (com backup; os hooks de outros apps ficam no mesmo lugar) e, depois de aprová-los em `/hooks`
   no Codex, a atividade é a de agora (e não só quando cada passo termina) e os pedidos de aprovação esperam a sua resposta no
   escritório por até 25 s (`-- --espera <s>`) antes de irem ao terminal. `codex:status` confere e `codex:uninstall`
@@ -433,7 +433,7 @@ Codex ao vivo e aprovar pelo escritório: `npm run codex:install` e aprove os ho
 
 ### Alterado
 
-- Uma pasta do Codex nunca vira conta do Claude Code, nem listada em `HABBLAUD_CLAUDE_DIRS` ou `CLAUDE_CONFIG_DIR`; o
+- Uma pasta do Codex nunca vira conta do Claude Code, nem listada em `PYX_CLAUDE_DIRS` ou `CLAUDE_CONFIG_DIR`; o
   servidor e o `docker:up` avisam.
 - Com quatro contas ou mais, os cartões de uso do topo ficam mais estreitos e os botões de zoom somem até 1700 px de
   largura, para não invadir os botões da direita.
@@ -449,13 +449,13 @@ mensagens); nas sessões já abertas, `/reload-plugins`.
   de perguntas mostra cada uma com as opções e as descrições: escolha uma (ou várias, quando a pergunta deixa),
   escreva a sua em "Outro" ou recuse. Como nas permissões, o diálogo continua no terminal e vale o que você responder
   primeiro; a tecla `P` e o contador "precisam de você" também levam às perguntas. Precisa do plugin
-  `habblaud-permissoes` desta versão.
+  `pyx-permissoes` desta versão.
 - **Mandar mensagens aos agentes pelo escritório.** Os detalhes de cada agente principal ganham a seção "Mandar
   mensagem": o texto entra na sessão como se você tivesse digitado no terminal dela (com o agente ocupado, entra
   quando ele terminar o turno), e a caixa mostra se a mensagem está na fila, foi entregue ou não. Vem de um plugin
-  novo, `habblaud-mensagens` (Claude Code 2.1.287+), instalado pelo `npm run mod:install` (`-- --sem-mensagens` deixa
+  novo, `pyx-mensagens` (Claude Code 2.1.287+), instalado pelo `npm run mod:install` (`-- --sem-mensagens` deixa
   de fora); o `npm run docker:up` não o instala sozinho, só avisa. Segue a trava do terminal (só acesso local) e
-  `HABBLAUD_MENSAGENS=0` desliga. Leia o aviso em "Privacidade e segurança" no README: qualquer programa desta máquina
+  `PYX_MENSAGENS=0` desliga. Leia o aviso em "Privacidade e segurança" no README: qualquer programa desta máquina
   consegue mandar mensagem às sessões que têm o plugin.
 
 ### Alterado
@@ -463,8 +463,8 @@ mensagens); nas sessões já abertas, `/reload-plugins`.
 - **O terminal (tecla `T`) aceita digitação.** Deixou de ser "somente leitura": nos agentes principais, o rodapé
   virou a caixa de mensagem (`Enter` manda, `Shift+Enter` quebra a linha). Subagentes e sessões do histórico continuam
   só para ler.
-- `npm run mod:install`, `mod:status` e `mod:uninstall` cuidam também do plugin `habblaud-mensagens`, e o
-  `mod:status` diz se o Habblaud está com as mensagens ligadas.
+- `npm run mod:install`, `mod:status` e `mod:uninstall` cuidam também do plugin `pyx-mensagens`, e o
+  `mod:status` diz se o PYX está com as mensagens ligadas.
 
 ## [0.5.0] - 2026-10-09
 
@@ -477,11 +477,11 @@ mensagens); nas sessões já abertas, `/reload-plugins`.
 
 ### Corrigido
 
-- Quando um arquivo de transcript era apagado e outro, maior, era criado no lugar, o Habblaud podia não perceber a
+- Quando um arquivo de transcript era apagado e outro, maior, era criado no lugar, o PYX podia não perceber a
   troca: alguns sistemas de arquivos reaproveitam o número (inode) do arquivo apagado, e só o inode era comparado.
   Agora também contam o momento de criação do arquivo (quando o sistema o informa) e o começo dele, e a leitura
   recomeça do início do arquivo novo.
-- No Windows, com o Node 23 até o 24.19, o hook do plugin `habblaud-permissoes` caía ao sair (código 0xC0000409,
+- No Windows, com o Node 23 até o 24.19, o hook do plugin `pyx-permissoes` caía ao sair (código 0xC0000409,
   um bug do Node: nodejs/node#56645) logo depois de receber a resposta do escritório. A decisão chegava antes da
   queda, mas sem decisão (como em "Responder no terminal") a sessão podia registrar um erro do hook. Agora o hook
   sai sem cair.
@@ -491,21 +491,21 @@ mensagens); nas sessões já abertas, `/reload-plugins`.
   antes do `git pull`.
 - No Windows, o mod não gravava o uso de 5 horas e semanal quando o `HOME` não estava definido (o normal fora do Git
   Bash): agora usa o `USERPROFILE`. E um `CLAUDE_CONFIG_DIR` com `\` (ex.: `C:\Users\voce\.claude-conta2`) virava um
-  nome de arquivo inválido; agora dá a mesma conta, inclusive com o Habblaud no Docker.
+  nome de arquivo inválido; agora dá a mesma conta, inclusive com o PYX no Docker.
 
 ## [0.4.0] - 2026-10-08
 
 ### Alterado
 
-- **O CodeTown agora se chama Habblaud.** O nome muda em toda parte: interface, logotipo, placa da recepção, totem da
-  entrada, prévia de link, repositório (`github.com/marmottajr/habblaud`), marketplace e plugins do Claude Code
-  (`habblaud` e `habblaud-permissoes`, com o comando `/habblaud`), variáveis de ambiente (`HABBLAUD_*`), pasta de
-  estado (`~/.habblaud`) e Docker (container e imagem `habblaud`, volume `habblaud-data`).
+- **O CodeTown agora se chama PYX.** O nome muda em toda parte: interface, logotipo, placa da recepção, totem da
+  entrada, prévia de link, repositório (`github.com/henrywizzrd/pyx`), marketplace e plugins do Claude Code
+  (`pyx` e `pyx-permissoes`, com o comando `/pyx`), variáveis de ambiente (`PYX_*`), pasta de
+  estado (`~/.pyx`) e Docker (container e imagem `pyx`, volume `pyx-data`).
 - Para quem vem do CodeTown: rode `npm run mod:install` uma vez (troca o marketplace e os plugins antigos pelos novos
   em cada conta) e `npm run docker:up` (tira o container antigo e copia os nomes, a linha do tempo e as estatísticas
   do volume `codetown_codetown-data` para o novo, sem apagar o antigo). A pasta `~/.codetown` e as preferências e
   moedinhas guardadas no navegador passam para os nomes novos sozinhas. As variáveis `CODETOWN_*` não valem mais:
-  renomeie para `HABBLAUD_*` no `.env` (o servidor e o `docker:up` avisam). Detalhes no README, em
+  renomeie para `PYX_*` no `.env` (o servidor e o `docker:up` avisam). Detalhes no README, em
   "Vindo do CodeTown".
 
 ## [0.3.2] - 2026-10-08
@@ -530,9 +530,9 @@ mensagens); nas sessões já abertas, `/reload-plugins`.
 
 ### Adicionado
 
-- **Mod do Habblaud para o Claude Code** (2.1.287 ou mais novo): `npm run mod:install` instala, em cada conta, o
-  marketplace desta pasta com o mod `habblaud` (uso de 5 horas e semanal ao vivo, uma linha no terminal quando outra
-  sessão precisa de você e o comando `/habblaud`) e o plugin `habblaud-permissoes` (responder permissões pelo
+- **Mod do PYX para o Claude Code** (2.1.287 ou mais novo): `npm run mod:install` instala, em cada conta, o
+  marketplace desta pasta com o mod `pyx` (uso de 5 horas e semanal ao vivo, uma linha no terminal quando outra
+  sessão precisa de você e o comando `/pyx`) e o plugin `pyx-permissoes` (responder permissões pelo
   escritório; `-- --sem-permissoes` deixa de fora). `npm run mod:status` mostra o que cada conta tem e
   `npm run mod:uninstall` tira tudo. O `npm run docker:up` atualiza o mod de quem já instalou.
 
@@ -541,9 +541,9 @@ mensagens); nas sessões já abertas, `/reload-plugins`.
 - O tap de statusline (`npm run usage:install`) e o hook de permissão (`npm run hooks:install`) viram o jeito antigo,
   para o Claude Code anterior ao 2.1.287. O `npm run mod:install` tira os dois da conta (com backup), porque o mod faz
   o mesmo. A interface e o README passam a ensinar o `npm run mod:install`.
-- O script do hook de permissão mudou para `mod/habblaud-permissoes/hooks/permission-hook.mjs`. O caminho antigo
+- O script do hook de permissão mudou para `mod/pyx-permissoes/hooks/permission-hook.mjs`. O caminho antigo
   (`scripts/permission-hook.mjs`) virou um atalho, então quem instalou o hook antes continua funcionando.
-- Em Contas e uso, a origem dos números diz quando vêm do mod ("ao vivo (mod do Habblaud)").
+- Em Contas e uso, a origem dos números diz quando vêm do mod ("ao vivo (mod do PYX)").
 - O leitor do uso ao vivo ignora um arquivo lido pela metade e fica com o último número bom, em vez de esconder a
   conta por um ciclo.
 
@@ -554,8 +554,8 @@ Primeira versão publicada.
 ### Adicionado
 
 - **Versão e atualizações:** a versão em uso aparece na barra superior e em Configurações › Sobre. A cada 6 horas o
-  Habblaud confere as releases no GitHub; quando sai uma versão nova, aparece o selo **Nova versão**, com um aviso e o
-  link do que mudou. `HABBLAUD_UPDATE_CHECK=0` desliga a consulta.
+  PYX confere as releases no GitHub; quando sai uma versão nova, aparece o selo **Nova versão**, com um aviso e o
+  link do que mudou. `PYX_UPDATE_CHECK=0` desliga a consulta.
 - **Meu dia** (tecla M): para onde foi o tempo dos agentes, quanto tempo esperaram você, tokens e custo, com 30 dias
   de histórico.
 - **GitHub no escritório:** PR aberto ou mergeado e release publicada viram festa na sala; CI vermelho liga o alarme,
@@ -576,20 +576,20 @@ Primeira versão publicada.
   Subagentes chegam, trabalham e entregam ao principal. Mostra as duas contas, com o uso de 5 horas e semanal de
   cada uma (tap de statusline), além de feed de atividade, avisos e modo demonstração. Roda no Node ou no Docker local.
 
-[Não lançado]: https://github.com/marmottajr/habblaud/compare/v1.0.3...HEAD
-[1.0.3]: https://github.com/marmottajr/habblaud/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/marmottajr/habblaud/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/marmottajr/habblaud/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/marmottajr/habblaud/compare/v0.11.0...v1.0.0
-[0.11.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.11.0
-[0.10.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.10.0
-[0.9.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.9.0
-[0.8.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.8.0
-[0.7.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.7.0
-[0.6.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.6.0
-[0.5.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.5.0
-[0.4.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.4.0
-[0.3.2]: https://github.com/marmottajr/habblaud/releases/tag/v0.3.2
-[0.3.1]: https://github.com/marmottajr/habblaud/releases/tag/v0.3.1
-[0.3.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.3.0
-[0.2.0]: https://github.com/marmottajr/habblaud/releases/tag/v0.2.0
+[Não lançado]: https://github.com/henrywizzrd/pyx/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/henrywizzrd/pyx/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/henrywizzrd/pyx/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/henrywizzrd/pyx/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/henrywizzrd/pyx/compare/v0.11.0...v1.0.0
+[0.11.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.11.0
+[0.10.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.10.0
+[0.9.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.9.0
+[0.8.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.8.0
+[0.7.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.7.0
+[0.6.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.6.0
+[0.5.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.5.0
+[0.4.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.4.0
+[0.3.2]: https://github.com/henrywizzrd/pyx/releases/tag/v0.3.2
+[0.3.1]: https://github.com/henrywizzrd/pyx/releases/tag/v0.3.1
+[0.3.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.3.0
+[0.2.0]: https://github.com/henrywizzrd/pyx/releases/tag/v0.2.0

@@ -1,4 +1,4 @@
-// Os arquivos que o servidor do Habblaud World guarda como cópia exata (protocol.ts e city.ts, com o SHA-256 conferido
+// Os arquivos que o servidor do PYX World guarda como cópia exata (protocol.ts e city.ts, com o SHA-256 conferido
 // lá) não importam nada nem usam Node ou DOM: copiados byte a byte, compilam do outro lado. Fica aqui (e não ao lado
 // deles, em shared/) porque precisa ler o disco.
 import { readFileSync } from 'node:fs';

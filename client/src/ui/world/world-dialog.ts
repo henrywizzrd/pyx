@@ -1,4 +1,4 @@
-// A janela do Habblaud World: um <dialog> modal (top layer, fundo escurecido, foco preso, Esc fecha) com o botão
+// A janela do PYX World: um <dialog> modal (top layer, fundo escurecido, foco preso, Esc fecha) com o botão
 // próprio na barra do topo (ícone de cidade, só com o servidor do mundo configurado) e aberto também pelo chip
 // "no mundo" / "pausado" ao lado da versão, pelos popups de lançamento ("Criar conta", "Criar personagem") e pelo
 // aviso "Enquanto você estava fora". O conteúdo é o WorldSettingsGroup (settings-world.ts): conta, lista de espera,
@@ -42,7 +42,7 @@ export class WorldDialog implements UiComponent, WorldThemeLink {
     this.group = new WorldSettingsGroup(ctx, src);
     const badge = h('span', { class: 'ui-world-dialog__badge', attrs: { 'aria-hidden': 'true' } });
     badge.innerHTML = WORLD_BUILDING_ICON;
-    this.title = h('h2', { class: 'ui-world-dialog__title', text: tr('Habblaud World'), tabIndex: -1, attrs: { id: TITLE_ID } });
+    this.title = h('h2', { class: 'ui-world-dialog__title', text: tr('PYX World'), tabIndex: -1, attrs: { id: TITLE_ID } });
     const close = iconButton(ICONS.close, tr('Fechar (Esc)'), () => this.close(), 'ui-icon-btn--sm');
     this.body = h('div', { class: 'ui-world-dialog__body' }, this.group.el);
     this.el = h(

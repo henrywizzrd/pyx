@@ -78,7 +78,7 @@ export interface OfficeDeps {
   updates?: () => UpdateStatus;
   /** Terminais interativos (PtyManager): estado do recurso e os abertos. */
   ptys?: () => { status: PtyStatus; list: PtyInfo[] };
-  /** Habblaud World (WorldService.meta; ver OfficeSnapshot.meta.world). */
+  /** PYX World (WorldService.meta; ver OfficeSnapshot.meta.world). */
   world?: () => WorldMeta;
   now?: () => number;
 }

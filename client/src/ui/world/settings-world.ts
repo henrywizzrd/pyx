@@ -1,4 +1,4 @@
-// O conteúdo da janela "Habblaud World" (world-dialog.ts, o botão próprio da barra do topo): conta (cadastro com
+// O conteúdo da janela "PYX World" (world-dialog.ts, o botão próprio da barra do topo): conta (cadastro com
 // aceite dos termos e o resumo de privacidade, código do e-mail, login, esqueci a senha), lista de espera, personagem
 // (o editor de aparência da gaveta do agente, mais nome, traços e frase de apresentação), o cartão "Seu prédio" com
 // Pausar/Retomar e "Ver o que foi enviado" (building.ts), visibilidade do prédio, dispositivos e sair. Também a dica
@@ -219,7 +219,7 @@ function flashText(f: WorldFlash): string {
     case 'password_changed':
       return tr('Senha trocada. Entre com a senha nova.');
     case 'signed_out':
-      return tr('Você saiu da conta do Habblaud World neste computador.');
+      return tr('Você saiu da conta do PYX World neste computador.');
     case 'character_saved':
       return tr('Personagem salvo.');
     case 'device_revoked':
@@ -240,7 +240,7 @@ function visibilityText(key: VisibilitySwitch): { label: string; hint: string } 
     case 'compactions':
       return { label: tr('Mostrar as compactações'), hint: tr('Quando um agente compacta o contexto, a lixeira da sala enche. Sai só o fato, nada do conteúdo.') };
     case 'knocks':
-      return { label: tr('Avisar quando baterem na porta'), hint: tr('Quem estiver na porta do seu prédio pode bater; o aviso chega aqui no Habblaud, sem o nome de quem bateu.') };
+      return { label: tr('Avisar quando baterem na porta'), hint: tr('Quem estiver na porta do seu prédio pode bater; o aviso chega aqui no PYX, sem o nome de quem bateu.') };
   }
 }
 
@@ -307,7 +307,7 @@ export class WorldSettingsGroup {
     this.sent = new SentDialog(() => this.client, () => this.ctx.now());
     this.el = h('div', { class: 'ui-world', hidden: true, attrs: { id: 'ui-world' } }, this.flashEl, this.body, this.sent.el);
     this.themeError = h('span', { class: 'ui-world__error', role: 'alert', hidden: true });
-    this.themeNote = h('span', { class: 'ui-set__hint ui-world-theme', hidden: true }, h('span', { text: tr('O tema também vale para o seu prédio no Habblaud World.') }), this.themeError);
+    this.themeNote = h('span', { class: 'ui-set__hint ui-world-theme', hidden: true }, h('span', { text: tr('O tema também vale para o seu prédio no PYX World.') }), this.themeError);
     src.onChange?.(() => {
       this.stale = true;
       ctx.invalidate();
@@ -486,7 +486,7 @@ export class WorldSettingsGroup {
   }
 
   private build(): View {
-    if (this.mode === 'local_only') return { el: para('ui-set__hint', tr('A conta do Habblaud World só pode ser mexida no próprio computador, com o Habblaud em acesso local (bind 127.0.0.1) e aberto por http://localhost.')) };
+    if (this.mode === 'local_only') return { el: para('ui-set__hint', tr('A conta do PYX World só pode ser mexida no próprio computador, com o PYX em acesso local (bind 127.0.0.1) e aberto por http://localhost.')) };
     if (this.mode !== 'active') return { el: h('div') };
     const key = this.builtKey;
     if (key === 'loading') return { el: para('ui-set__hint', tr('Carregando…')) };
@@ -567,7 +567,7 @@ export class WorldSettingsGroup {
       h(
         'ul',
         { class: 'ui-world__list' },
-        h('li', {}, h('strong', { text: tr('Sai:') }), ' ', tr('o tema do escritório; um andar por sala aberta, com um código aleatório que muda todo dia; de cada agente, se é principal ou subagente, a ferramenta, o status, a aparência, um nome sorteado e a faixa de tarefas concluídas no dia; os tokens do prédio arredondados em faixas (dá para desligar); se você ligar, o fato de um agente ter compactado o contexto; a versão e o commit do Habblaud, com a marca de cópia modificada; e o idioma da interface, só para os e-mails.')),
+        h('li', {}, h('strong', { text: tr('Sai:') }), ' ', tr('o tema do escritório; um andar por sala aberta, com um código aleatório que muda todo dia; de cada agente, se é principal ou subagente, a ferramenta, o status, a aparência, um nome sorteado e a faixa de tarefas concluídas no dia; os tokens do prédio arredondados em faixas (dá para desligar); se você ligar, o fato de um agente ter compactado o contexto; a versão e o commit do PYX, com a marca de cópia modificada; e o idioma da interface, só para os e-mails.')),
         h('li', {}, h('strong', { text: tr('Nunca sai:') }), ' ', tr('caminhos e nomes de projetos, títulos de sessão, comandos, mensagens, código, custo, a sua conta do Claude, o seu e-mail e o nome do computador.')),
       ),
       para('ui-world__key', tr('Com os dados que saem não dá para saber quem você é nem em que trabalha.')),
@@ -616,7 +616,7 @@ export class WorldSettingsGroup {
         'label',
         { class: 'ui-world__accept' },
         accept,
-        h('span', {}, ...rich(tr('Li e aceito os {0} e a {1} do Habblaud World.'), [extLink(tr('Termos de Uso'), WORLD_TERMS_URL), extLink(tr('Política de Privacidade'), WORLD_PRIVACY_URL)])),
+        h('span', {}, ...rich(tr('Li e aceito os {0} e a {1} do PYX World.'), [extLink(tr('Termos de Uso'), WORLD_TERMS_URL), extLink(tr('Política de Privacidade'), WORLD_PRIVACY_URL)])),
       ),
       form.error,
       h('div', { class: 'ui-world__actions' }, form.submit, h('button', { class: 'ui-btn', type: 'button', text: tr('Já tenho conta'), on: { click: () => this.go('login') } })),
@@ -1251,7 +1251,7 @@ export class WorldSettingsGroup {
     const error = h('p', { class: 'ui-world__error', role: 'alert', hidden: true });
     const sw = switchRow(
       tr('Avisar por e-mail antes de retirar meu prédio por inatividade'),
-      tr('Sem notícias deste Habblaud por 7 dias, o prédio some do mapa e, 30 dias depois, é retirado. O e-mail chega 3 dias antes da retirada.'),
+      tr('Sem notícias deste PYX por 7 dias, o prédio some do mapa e, 30 dias depois, é retirado. O e-mail chega 3 dias antes da retirada.'),
       () => void toggle(),
     );
     const noPlayer = para('ui-set__hint', tr('O aviso de inatividade fica disponível depois de criar o personagem.'));
@@ -1289,7 +1289,7 @@ export class WorldSettingsGroup {
     return { el: h('section', { class: 'ui-world__acct' }, h('h4', { class: 'ui-world__acct-title', text: tr('Avisos') }), sw.row, noPlayer, error), sync };
   }
 
-  /** "Baixar meus dados": pede o JSON ao servidor local e salva como habblaud-world-dados.json. */
+  /** "Baixar meus dados": pede o JSON ao servidor local e salva como pyx-world-dados.json. */
   private exportSection(): HTMLElement {
     const btn = h('button', { class: 'ui-btn', type: 'button', text: tr('Baixar meus dados') });
     const note = h('p', { class: 'ui-set__hint', role: 'status', hidden: true });
@@ -1321,7 +1321,7 @@ export class WorldSettingsGroup {
       h('h4', { class: 'ui-world__acct-title', text: tr('Seus dados') }),
       para(
         'ui-set__hint',
-        tr('Um arquivo JSON com o que o Habblaud World guarda da sua conta: e-mail, datas, personagem, visibilidade, dispositivos, prédio, likes dados, bloqueios e denúncias feitas. Dá para baixar uma vez por dia.'),
+        tr('Um arquivo JSON com o que o PYX World guarda da sua conta: e-mail, datas, personagem, visibilidade, dispositivos, prédio, likes dados, bloqueios e denúncias feitas. Dá para baixar uma vez por dia.'),
       ),
       h('div', { class: 'ui-world__actions' }, btn),
       note,
@@ -1336,7 +1336,7 @@ export class WorldSettingsGroup {
     const explain = () => {
       const next = h('button', { class: 'ui-btn', type: 'button', text: tr('Excluir conta…'), on: { click: () => show(confirm()) } });
       return [
-        para('ui-set__hint', tr('Excluir a conta tira você do Habblaud World:')),
+        para('ui-set__hint', tr('Excluir a conta tira você do PYX World:')),
         h(
           'ul',
           { class: 'ui-world__list' },

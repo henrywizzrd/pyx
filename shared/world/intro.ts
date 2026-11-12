@@ -1,4 +1,4 @@
-// Frases de apresentação do jogador do Habblaud World: o protocolo leva só o id (IntroId); o texto é traduzido no
+// Frases de apresentação do jogador do PYX World: o protocolo leva só o id (IntroId); o texto é traduzido no
 // navegador de quem vê. Puro: sem Node nem DOM.
 import { tr } from '../i18n';
 import { INTRO_IDS, type IntroId } from './protocol';

@@ -401,9 +401,9 @@ describe('cartão "Seu prédio"', () => {
     expect(buildingState({ ...live, left: true }, false)).toBe('no_player');
   });
 
-  it('parado pelo servidor do mundo: cada motivo com o seu texto; "Atualize o Habblaud" e "Conectado em outro computador"', () => {
+  it('parado pelo servidor do mundo: cada motivo com o seu texto; "Atualize o PYX" e "Conectado em outro computador"', () => {
     const stopped = (reason: WorldBuildingStop) => buildingView({ ...live, connected: false, stopped: reason }, true, NOW);
-    expect(stopped('update')).toMatchObject({ state: 'stopped', label: 'Atualize o Habblaud', toggle: null, leave: true, rejected: null });
+    expect(stopped('update')).toMatchObject({ state: 'stopped', label: 'Atualize o PYX', toggle: null, leave: true, rejected: null });
     expect(stopped('other-device')).toMatchObject({ label: 'Conectado em outro computador', toggle: { action: 'resume', text: 'Trazer para este computador' }, leave: true });
     expect(stopped('suspended').toggle).toMatchObject({ action: 'resume', text: 'Tentar de novo' });
     expect(stopped('banned')).toMatchObject({ label: 'Conta banida', toggle: null, leave: false });
@@ -540,9 +540,9 @@ describe('conta e dados (Fase 6)', () => {
   });
 
   it('recurso por e-mail: mailto com o assunto fixo e o id da conta quando se sabe (só um id limpo)', () => {
-    expect(APPEAL_EMAIL).toBe('privacidade@habblaud.com');
-    expect(appealMailto()).toBe('mailto:privacidade@habblaud.com?subject=Recurso%20Habblaud%20World');
-    expect(appealMailto('acc_1')).toBe('mailto:privacidade@habblaud.com?subject=Recurso%20Habblaud%20World%20acc_1');
+    expect(APPEAL_EMAIL).toBe('privacidade@pyx.com');
+    expect(appealMailto()).toBe('mailto:privacidade@pyx.com?subject=Recurso%20PYX%20World');
+    expect(appealMailto('acc_1')).toBe('mailto:privacidade@pyx.com?subject=Recurso%20PYX%20World%20acc_1');
     expect(appealMailto('x&cc=a@b.co')).toBe(appealMailto());
   });
 
@@ -582,6 +582,6 @@ describe('conta e dados (Fase 6)', () => {
     expect(notifyInactivityOn(undefined)).toBe(true);
     expect(notifyInactivityOn({})).toBe(true);
     expect(notifyInactivityOn({ notifyInactivity: false })).toBe(false);
-    expect(EXPORT_FILENAME).toBe('habblaud-world-dados.json');
+    expect(EXPORT_FILENAME).toBe('pyx-world-dados.json');
   });
 });

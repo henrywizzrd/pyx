@@ -34,7 +34,7 @@ export class TopBar implements UiComponent {
   private pill: HTMLElement;
   private pillText: HTMLElement;
   private demoBadge: HTMLElement;
-  /** Linha de baixo da marca (conexão, versão, selos): o chip do Habblaud World entra aqui (ui/index.ts). */
+  /** Linha de baixo da marca (conexão, versão, selos): o chip do PYX World entra aqui (ui/index.ts). */
   private status: HTMLElement;
   private counters = new Map<keyof Counters, CounterRefs>();
   private shellsBtn: HTMLButtonElement;
@@ -47,11 +47,11 @@ export class TopBar implements UiComponent {
   private feedBtn: HTMLButtonElement;
   private timelapseBtn: HTMLButtonElement;
   readonly settingsBtn: HTMLButtonElement;
-  /** Abre a janela do Habblaud World (ao lado de Configurações); a janela decide quando ele aparece. */
+  /** Abre a janela do PYX World (ao lado de Configurações); a janela decide quando ele aparece. */
   readonly worldBtn: HTMLButtonElement;
   private readonly spawnBtn: HTMLButtonElement;
   private readonly spawnPanel: SpawnPanel;
-  /** Grupo dos botões de painéis (feed, Habblaud World, configurações, ajuda); o histórico entra aqui (ui/index.ts). */
+  /** Grupo dos botões de painéis (feed, PYX World, configurações, ajuda); o histórico entra aqui (ui/index.ts). */
   readonly panelGroup: HTMLElement;
 
   constructor(private ctx: UiContext) {
@@ -105,8 +105,8 @@ export class TopBar implements UiComponent {
     this.sidebarBtn = iconButton(ICONS.sidebar, tr('Painel lateral ( [ )'), () => ctx.togglePanel('sidebar'), 'ui-btn-sidebar');
     this.feedBtn = iconButton(ICONS.feed, tr('Feed de atividade ( ] )'), () => ctx.togglePanel('feed'), 'ui-btn-feed');
     this.timelapseBtn = iconButton(TIMELAPSE_ICONS.timelapse, tr('Timelapse: reproduzir o dia (L)'), () => ctx.toggleTimelapse(), 'ui-btn-timelapse');
-    // Habblaud World: escondido até a janela dele (ui/world/world-dialog.ts) dizer que há servidor do mundo configurado.
-    this.worldBtn = iconButton(ICONS.city, tr('Habblaud World'), () => ctx.toggleWorld(), 'ui-btn-world');
+    // PYX World: escondido até a janela dele (ui/world/world-dialog.ts) dizer que há servidor do mundo configurado.
+    this.worldBtn = iconButton(ICONS.city, tr('PYX World'), () => ctx.toggleWorld(), 'ui-btn-world');
     this.worldBtn.setAttribute('aria-haspopup', 'dialog');
     this.worldBtn.hidden = true;
     this.settingsBtn = iconButton(ICONS.settings, tr('Configurações'), () => ctx.toggleSettings());
@@ -157,7 +157,7 @@ export class TopBar implements UiComponent {
     );
   }
 
-  /** Acrescenta um selo à linha de status da marca, depois da versão (ex.: o chip do Habblaud World). */
+  /** Acrescenta um selo à linha de status da marca, depois da versão (ex.: o chip do PYX World). */
   addStatus(el: HTMLElement): void {
     this.status.append(el);
   }
@@ -189,7 +189,7 @@ export class TopBar implements UiComponent {
         ? tr('Dados simulados no navegador (?mock=1)')
         : conn === 'open'
           ? tr('Recebendo eventos do servidor em tempo real')
-          : tr('Sem conexão com o servidor do Habblaud'),
+          : tr('Sem conexão com o servidor do PYX'),
     );
     setHidden(this.demoBadge, !(conn === 'open' && snap?.meta.demo));
 

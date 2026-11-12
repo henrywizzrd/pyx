@@ -1,4 +1,4 @@
-// Cena da cidade do Habblaud World: liga o stream (net/world-stream.ts: o do servidor local ou a cidade falsa do modo
+// Cena da cidade do PYX World: liga o stream (net/world-stream.ts: o do servidor local ou a cidade falsa do modo
 // demonstração), o estado, o meu jogador, a câmera, o desenho, a entrada, os cartões e o minimapa. Montada por app.ts
 // quando o botão Mundo abre a cena; o stream só existe com a cena na tela (abre ao mostrar, fecha ao esconder).
 // O social leve (Fase 5: like, cumprimentos, bater na porta, perfil, "Ir para", a praça e as fachadas) fica em
@@ -72,7 +72,7 @@ export interface CitySceneOptions {
   options: () => WorldOptions;
   /** Margem coberta pela barra do topo (px CSS). */
   topInset: () => number;
-  /** Versão do Habblaud (o escritório da visita leva em `meta.version`). */
+  /** Versão do PYX (o escritório da visita leva em `meta.version`). */
   version?: () => string;
 }
 
@@ -438,7 +438,7 @@ export function createCityScene(o: CitySceneOptions): CityScene {
 
   // ------------------------------------------------------------------ stream
 
-  const offline = () => tr('Sem conexão com o Habblaud World agora; o Habblaud tenta de novo sozinho.');
+  const offline = () => tr('Sem conexão com o PYX World agora; o PYX tenta de novo sozinho.');
 
   const onStream = (ev: WorldStreamEvent) => {
     switch (ev.type) {

@@ -6,13 +6,13 @@ const T0 = 1_700_000_000_000;
 
 describe('textos', () => {
   it('avisos no formato do escritório', () => {
-    expect(describeGitHubEvent({ kind: 'pr_opened', number: 12 }, 'Danilo', 'habblaud').notice).toBe('🎉 Danilo abriu o PR #12 em habblaud');
-    expect(describeGitHubEvent({ kind: 'pr_merged', number: 12 }, 'Danilo', 'habblaud').notice).toBe('🎉 Danilo mergeou o PR #12 em habblaud');
-    expect(describeGitHubEvent({ kind: 'pr_merged' }, 'Danilo', 'habblaud').notice).toBe('🎉 Danilo mergeou um PR em habblaud');
-    expect(describeGitHubEvent({ kind: 'ci_failed', branch: 'feat/x' }, 'Danilo', 'habblaud')).toMatchObject({ notice: '🚨 CI falhou em habblaud (feat/x)', level: 'warn' });
-    expect(describeGitHubEvent({ kind: 'ci_passed', number: 4 }, 'Danilo', 'habblaud').notice).toBe('✅ CI passou em habblaud (PR #4)');
-    expect(describeGitHubEvent({ kind: 'push', branch: 'main' }, 'Danilo', 'habblaud').notice).toBe('🚀 Danilo enviou commits para main em habblaud');
-    expect(describeGitHubEvent({ kind: 'release', tag: 'v1.2.0' }, 'Danilo', 'habblaud').notice).toBe('🎉 Danilo publicou a release v1.2.0 em habblaud');
+    expect(describeGitHubEvent({ kind: 'pr_opened', number: 12 }, 'Danilo', 'pyx').notice).toBe('🎉 Danilo abriu o PR #12 em pyx');
+    expect(describeGitHubEvent({ kind: 'pr_merged', number: 12 }, 'Danilo', 'pyx').notice).toBe('🎉 Danilo mergeou o PR #12 em pyx');
+    expect(describeGitHubEvent({ kind: 'pr_merged' }, 'Danilo', 'pyx').notice).toBe('🎉 Danilo mergeou um PR em pyx');
+    expect(describeGitHubEvent({ kind: 'ci_failed', branch: 'feat/x' }, 'Danilo', 'pyx')).toMatchObject({ notice: '🚨 CI falhou em pyx (feat/x)', level: 'warn' });
+    expect(describeGitHubEvent({ kind: 'ci_passed', number: 4 }, 'Danilo', 'pyx').notice).toBe('✅ CI passou em pyx (PR #4)');
+    expect(describeGitHubEvent({ kind: 'push', branch: 'main' }, 'Danilo', 'pyx').notice).toBe('🚀 Danilo enviou commits para main em pyx');
+    expect(describeGitHubEvent({ kind: 'release', tag: 'v1.2.0' }, 'Danilo', 'pyx').notice).toBe('🎉 Danilo publicou a release v1.2.0 em pyx');
   });
 
   it('atividade com o marcador, curta e mascarada; CI vermelho com error', () => {

@@ -1,7 +1,7 @@
-// ALTCHA: prova de trabalho que o servidor do Habblaud World pede no cadastro e nos envios de e-mail (no lugar de um
+// ALTCHA: prova de trabalho que o servidor do PYX World pede no cadastro e nos envios de e-mail (no lugar de um
 // captcha). O servidor manda {algorithm, challenge, salt, maxnumber, signature}; quem pede acha o número n (0..maxnumber)
 // com SHA-256(salt + n) = challenge e devolve, em base64, o JSON {algorithm, challenge, number, salt, signature, took}
-// (o formato do widget ALTCHA). Quem resolve é o servidor local do Habblaud, por força bruta, sem dependências.
+// (o formato do widget ALTCHA). Quem resolve é o servidor local do PYX, por força bruta, sem dependências.
 //
 // A busca roda em lotes, devolvendo a vez ao event loop entre eles: o escritório continua respondendo enquanto isso.
 import { createHash } from 'node:crypto';

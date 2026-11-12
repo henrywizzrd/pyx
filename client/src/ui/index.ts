@@ -1,4 +1,4 @@
-// Interface do Habblaud (painéis DOM sobre o canvas do escritório).
+// Interface do PYX (painéis DOM sobre o canvas do escritório).
 // Recebe o OfficeStore (dados) e o WorldApi (canvas) e monta: barra superior com uso por conta,
 // barra lateral, gaveta de detalhes, feed, avisos, configurações, ajuda e estados de carregamento/vazio.
 // DOM incremental: os snapshots (até ~5/s) só marcam a UI como "suja"; tudo é reconciliado uma vez por quadro.
@@ -237,7 +237,7 @@ export function createUI(root: HTMLElement, store: OfficeStore, world: WorldApi,
   const feed = new FeedPanel(ctx);
   const toasts = new Toasts(ctx);
   const updateToaster = new UpdateToaster(ctx, (n) => toasts.push(n));
-  // Habblaud World (em desenvolvimento): a janela própria (botão na barra do topo) e os popups de lançamento, só com
+  // PYX World (em desenvolvimento): a janela própria (botão na barra do topo) e os popups de lançamento, só com
   // meta.world ligado. As Configurações só recebem dela a dica do tema em Aparência.
   const hw = worldSource(store);
   worldDialog = new WorldDialog(ctx, hw, topbar.worldBtn);

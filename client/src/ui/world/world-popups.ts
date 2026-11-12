@@ -1,11 +1,11 @@
-// Os popups do lançamento do Habblaud World, um modal de verdade (<dialog> no top layer, com o fundo escurecido, o
-// foco preso e o Esc fechando) por cima do escritório, e acima da janela do Habblaud World quando ela está aberta:
-// - "Novidade: Habblaud World", para quem ainda não tem conta. "Agora não" fecha e ele volta depois de 3 dias, no
+// Os popups do lançamento do PYX World, um modal de verdade (<dialog> no top layer, com o fundo escurecido, o
+// foco preso e o Esc fechando) por cima do escritório, e acima da janela do PYX World quando ela está aberta:
+// - "Novidade: PYX World", para quem ainda não tem conta. "Agora não" fecha e ele volta depois de 3 dias, no
 //   máximo 3 vezes; "Não mostrar de novo" encerra; com a conta criada, nunca mais. Com Configurações ou a janela do
 //   World abertos, espera.
 // - "Você está na lista de espera", logo depois do cadastro (ou ao abrir a página já na espera), uma vez por navegador.
 // - "Acesso liberado!", quando a conta é liberada com a página aberta (ou ao abrir já liberada, sem personagem), uma
-//   vez por navegador; "Criar personagem" abre a janela do Habblaud World na tela do personagem.
+//   vez por navegador; "Criar personagem" abre a janela do PYX World na tela do personagem.
 // Quem decide é nextWorldPopup (world-model.ts, puro e testado); a memória vai ao localStorage quando o popup aparece
 // (sem armazenamento, vale só para esta página). Só com o servidor do World configurado e a página aberta pelo próprio
 // computador: nunca pela porta do celular, no timelapse ou no modo demonstração.
@@ -51,7 +51,7 @@ export const WORLD_BUILDING_ICON = pixelIcon(
 );
 
 export interface WorldPopupHooks {
-  /** Abre a janela do Habblaud World na tela pedida (o cadastro ou o personagem). */
+  /** Abre a janela do PYX World na tela pedida (o cadastro ou o personagem). */
   openWorld(screen: 'register' | 'character'): void;
   /** Configurações ou a janela do World abertos: o popup de lançamento espera (os outros dois ficam por cima). */
   panelOpen(): boolean;
@@ -138,7 +138,7 @@ export class WorldPopups implements UiComponent {
         title: tr('Você está na lista de espera'),
         body: [
           para(tr('O acesso é liberado aos poucos, em lotes. Avisamos por e-mail quando chegar a sua vez.')),
-          hint(tr('Enquanto isso, o Habblaud continua normal e nada do escritório é enviado.')),
+          hint(tr('Enquanto isso, o PYX continua normal e nada do escritório é enviado.')),
         ],
         actions: [ok],
         primary: ok,
@@ -155,7 +155,7 @@ export class WorldPopups implements UiComponent {
     }
     const create = h('button', { class: 'ui-btn ui-btn--primary ui-world-popup__cta', type: 'button', text: tr('Criar conta'), attrs: { autofocus: true }, on: { click: () => this.go('register') } });
     return {
-      title: tr('Novidade: Habblaud World'),
+      title: tr('Novidade: PYX World'),
       body: [
         h('p', { class: 'ui-world-popup__lead', text: tr('Seu escritório agora pode virar um prédio numa cidade online, aceso enquanto os seus agentes trabalham.') }),
         h(

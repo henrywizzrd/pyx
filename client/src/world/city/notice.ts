@@ -32,7 +32,7 @@ export function noticeText(raw: NoticeId | (string & {}), place: NoticePlace = '
     case 'afk':
       return tr('Você ficou um tempo parado.');
     case 'server_restart':
-      return tr('O Habblaud World vai reiniciar: a conexão cai e volta sozinha.');
+      return tr('O PYX World vai reiniciar: a conexão cai e volta sozinha.');
     case 'left':
       return tr('Sua conta saiu do mundo: o prédio volta com "Voltar ao mundo", em Configurações.');
     case 'too_far':
@@ -57,6 +57,6 @@ export function noticeText(raw: NoticeId | (string & {}), place: NoticePlace = '
       return tr('Carimbo deixado na portaria.');
     default:
       void (id satisfies never);
-      return tr('Aviso do Habblaud World.');
+      return tr('Aviso do PYX World.');
   }
 }

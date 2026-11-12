@@ -1,14 +1,14 @@
 {
-  "name": "habblaud",
+  "name": "pyx",
   "version": "1.0.3",
   "private": true,
   "description": "Escritório virtual animado que mostra, em tempo real, o que seus agentes do Claude Code estão fazendo.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marmottajr/habblaud.git"
+    "url": "git+https://github.com/henrywizzrd/pyx.git"
   },
-  "homepage": "https://github.com/marmottajr/habblaud#readme",
+  "homepage": "https://github.com/henrywizzrd/pyx#readme",
   "type": "module",
   "engines": {
     "node": ">=22.12"
@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "tsx watch --clear-screen=false --exclude './client/**' server/index.ts --dev",
     "dev:client": "vite --config vite.config.ts",
-    "demo": "HABBLAUD_DEMO=1 npm run dev",
+    "demo": "PYX_DEMO=1 npm run dev",
     "demo:timeline": "tsx scripts/demo-timeline.ts",
     "shots:world": "node scripts/world-shots.mjs",
     "build": "npm run build:client && npm run build:server",
@@ -28,7 +28,7 @@
     "i18n:check": "tsx scripts/i18n-check.ts",
     "docker:up": "tsx scripts/docker-up.ts",
     "docker:down": "tsx scripts/docker-up.ts --down",
-    "docker:logs": "docker compose logs -f habblaud",
+    "docker:logs": "docker compose logs -f pyx",
     "usage:install": "tsx scripts/statusline-install.ts install",
     "usage:uninstall": "tsx scripts/statusline-install.ts uninstall",
     "usage:status": "tsx scripts/statusline-install.ts status",

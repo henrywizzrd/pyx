@@ -1,4 +1,4 @@
-// Botão Mundo na barra do topo: troca o escritório pela cidade do Habblaud World e volta (botão Escritório ou Esc).
+// Botão Mundo na barra do topo: troca o escritório pela cidade do PYX World e volta (botão Escritório ou Esc).
 // Só aparece com a cena disponível: `meta.world.scene.available` do servidor local (no modo demonstração, com a
 // conta liberada), pela página do próprio computador (nunca pela porta do celular) e nunca no timelapse. A cena em si é montada por app.ts (CitySceneHost); aqui fica o botão, o
 // estado "na cidade" da interface (classe `is-city` no #ui) e a ida e volta.
@@ -76,7 +76,7 @@ export class SceneSwitch implements UiComponent {
       // a gaveta e o terminal fecham: na cidade não há agente selecionado
       if (this.ctx.selection()) this.ctx.select(null);
       await this.host.show();
-      this.ctx.announce(tr('Você está na cidade do Habblaud World. Esc volta ao escritório.'));
+      this.ctx.announce(tr('Você está na cidade do PYX World. Esc volta ao escritório.'));
     } catch (err) {
       console.error('[ui] a cidade não abriu', err);
     } finally {
@@ -114,7 +114,7 @@ export class SceneSwitch implements UiComponent {
     const city = this.host.open;
     this.icon.innerHTML = city ? ICONS.office : ICONS.city;
     setText(this.label, city ? tr('Escritório') : tr('Mundo'));
-    const title = city ? tr('Voltar ao escritório (Esc)') : tr('Mundo: andar pela cidade do Habblaud World');
+    const title = city ? tr('Voltar ao escritório (Esc)') : tr('Mundo: andar pela cidade do PYX World');
     setTitle(this.button, title);
     setAttr(this.button, 'aria-label', title);
     setAttr(this.button, 'aria-pressed', String(city));

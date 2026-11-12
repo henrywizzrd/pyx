@@ -496,7 +496,7 @@ export class CitySocial implements CityFx {
     this.send({ t: 'block', playerId }, { kind: 'block', at: now, playerId });
     this.blocked.add(playerId);
     this.o.cards.hide();
-    this.o.toast(tr('{0} bloqueado. Para desfazer: Configurações › Habblaud World › Bloqueados.', [name]));
+    this.o.toast(tr('{0} bloqueado. Para desfazer: Configurações › PYX World › Bloqueados.', [name]));
   }
 
   private report(playerId: string, reason: ReportReason, now: number): boolean {

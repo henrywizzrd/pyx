@@ -1,0 +1,11 @@
+{
+  "name": "pyx",
+  "displayName": "PYX",
+  "version": "1.0.3",
+  "description": "Liga a sessão ao PYX: grava o uso do plano (5h e semanal) para o escritório, avisa embaixo do prompt quando outra sessão precisa de você e adiciona o comando /pyx.",
+  "author": { "name": "Márcio Junior", "url": "https://github.com/marmottajr" },
+  "homepage": "https://github.com/henrywizzrd/pyx#readme",
+  "repository": "https://github.com/henrywizzrd/pyx",
+  "license": "MIT",
+  "keywords": ["pyx", "escritorio", "uso", "rate-limits", "status"]
+}

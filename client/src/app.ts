@@ -44,11 +44,11 @@ export function start(): void {
   }
 
   // Facilita a depuração pelo console do navegador.
-  Object.assign(window, { habblaud: { store, world, city } });
+  Object.assign(window, { pyx: { store, world, city } });
 }
 
 /**
- * A cena da cidade do Habblaud World (botão Mundo): um segundo canvas por cima do escritório, carregado só na
+ * A cena da cidade do PYX World (botão Mundo): um segundo canvas por cima do escritório, carregado só na
  * primeira vez que abre (quem não usa o World não baixa a cidade). Com a cidade na tela, o escritório para de
  * desenhar e o teclado é da cidade; Esc ou o botão Escritório voltam.
  */

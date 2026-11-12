@@ -1,4 +1,4 @@
-// Nomes fictícios de projeto do Habblaud World (PLANO.md, seções 4.3 e 6.2): cada andar de um prédio ganha um id
+// Nomes fictícios de projeto do PYX World (PLANO.md, seções 4.3 e 6.2): cada andar de um prédio ganha um id
 // desta lista ("ipe", "jade", "aurora"...), sorteado pelo servidor a partir do id aleatório do andar, e o
 // navegador de quem visita traduz ("Projeto Ipê", "Project Ipê", "Proyecto Ipê", "Projet Ipê"). O rótulo muda
 // junto com o id do andar (rotação de 24 h ± 6 h), então não identifica projeto nenhum.

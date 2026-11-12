@@ -1,4 +1,4 @@
-// Habblaud World na interface, parte pura (sem DOM): quando a janela do World e os popups de lançamento
+// PYX World na interface, parte pura (sem DOM): quando a janela do World e os popups de lançamento
 // aparecem, a máquina de estados da seção, as regras de senha, nome de jogador e traços e o texto de cada erro. São
 // conferências de antemão, para responder na hora: quem decide é o servidor (o nome, por exemplo, ainda passa pela
 // lista de palavras bloqueadas, que só ele tem). Também o cartão "Seu prédio" (Fase 2): estado, contagens, motivo de
@@ -34,7 +34,7 @@ export interface WorldGate {
   remote: boolean;
   /** Página aberta pelo próprio computador (Host local). */
   local: boolean;
-  /** meta.terminal: o Habblaud só é acessível pelo próprio computador (a trava das ações da conta). */
+  /** meta.terminal: o PYX só é acessível pelo próprio computador (a trava das ações da conta). */
   terminal: boolean;
   /** Modo demonstração com o FakeWorldApi: sem servidor, nenhuma trava vale. */
   fake: boolean;
@@ -58,13 +58,13 @@ export function hasCharacter(meta: WorldMeta | undefined): boolean {
 }
 
 /** Chave do cartão de convite antigo (até a 0.11): só o valor `never` ("Não mostrar de novo") continua valendo. */
-export const INVITE_SEEN_KEY = 'habblaud:world-invite-seen';
+export const INVITE_SEEN_KEY = 'pyx:world-invite-seen';
 /** Popup de lançamento: JSON `{shown, last}` (quantas vezes apareceu e quando foi a última, em ms) ou `never`. */
-export const LAUNCH_KEY = 'habblaud:world-launch';
+export const LAUNCH_KEY = 'pyx:world-launch';
 /** Popup "Você está na lista de espera": `1` depois de aparecer. */
-export const WAITLIST_SEEN_KEY = 'habblaud:world-waitlist-seen';
+export const WAITLIST_SEEN_KEY = 'pyx:world-waitlist-seen';
 /** Popup "Acesso liberado!": `1` depois de aparecer. */
-export const APPROVED_SEEN_KEY = 'habblaud:world-approved-seen';
+export const APPROVED_SEEN_KEY = 'pyx:world-approved-seen';
 
 /** "Agora não": o popup de lançamento volta depois de 3 dias... */
 export const LAUNCH_RETURN_MS = 3 * 24 * 60 * 60 * 1000;
@@ -116,8 +116,8 @@ export function serializePopupMemory(m: WorldPopupMemory): { launch: string | nu
 }
 
 /**
- * Qual popup do Habblaud World mostrar agora (um só por vez, pelo estado da conta), e o que gravar na memória:
- * - launch: sem conta ("Novidade: Habblaud World"); volta a cada 3 dias até 3 vezes, ou nunca mais depois de
+ * Qual popup do PYX World mostrar agora (um só por vez, pelo estado da conta), e o que gravar na memória:
+ * - launch: sem conta ("Novidade: PYX World"); volta a cada 3 dias até 3 vezes, ou nunca mais depois de
  *   "Não mostrar de novo" ou de uma conta criada (qualquer estado diferente de `logged_out` grava `never`);
  * - waitlist: na lista de espera, uma vez por navegador (logo depois do cadastro ou ao abrir a página já na espera);
  * - approved: acesso liberado e personagem ainda não criado, uma vez por navegador.
@@ -391,13 +391,13 @@ export function notifyInactivityOn(v: Pick<WorldVisibility, 'notifyInactivity'> 
 }
 
 /** Nome do arquivo de "Baixar meus dados" (o mesmo do anexo de GET /api/world/export). */
-export const EXPORT_FILENAME = 'habblaud-world-dados.json';
+export const EXPORT_FILENAME = 'pyx-world-dados.json';
 
 /** Para onde vão os recursos (conta suspensa ou banida, prédio "não verificado") e os pedidos sobre os dados. */
-export const APPEAL_EMAIL = 'privacidade@habblaud.com';
+export const APPEAL_EMAIL = 'privacidade@pyx.com';
 
 /** Assunto fixo do recurso (em português: é o filtro da caixa de quem atende), com o id da conta quando se sabe. */
-export const APPEAL_SUBJECT = 'Recurso Habblaud World';
+export const APPEAL_SUBJECT = 'Recurso PYX World';
 
 /** O link "Recorrer por e-mail": mailto para APPEAL_EMAIL com o assunto e, se houver, o id da conta. */
 export function appealMailto(accountId?: string): string {
@@ -463,13 +463,13 @@ export function worldErrorText(raw: WorldErrorCode | string, action: WorldAction
     case 'email_not_verified':
       return tr('Falta confirmar o e-mail: mandamos um código novo.');
     case 'banned':
-      return tr('Esta conta foi banida do Habblaud World. Para recorrer, responda ao e-mail do banimento.');
+      return tr('Esta conta foi banida do PYX World. Para recorrer, responda ao e-mail do banimento.');
     case 'suspended':
-      return tr('Esta conta está suspensa no Habblaud World por enquanto.');
+      return tr('Esta conta está suspensa no PYX World por enquanto.');
     case 'unauthorized':
     case 'not_logged_in':
     case 'session_expired':
-      return tr('A sessão do Habblaud World neste computador terminou. Entre de novo.');
+      return tr('A sessão do PYX World neste computador terminou. Entre de novo.');
     case 'name_taken':
       return tr('Este nome já está em uso no mundo. Escolha outro.');
     case 'name_invalid':
@@ -495,18 +495,18 @@ export function worldErrorText(raw: WorldErrorCode | string, action: WorldAction
     case 'no_player':
       return tr('Crie o personagem primeiro.');
     case 'unavailable':
-      return tr('O Habblaud World está em manutenção. Tente de novo mais tarde.');
+      return tr('O PYX World está em manutenção. Tente de novo mais tarde.');
     case 'maintenance':
       return tr('O mundo está em manutenção; tentamos de novo em instantes.');
     case 'not_found':
-      return action === 'revoke' ? tr('Este dispositivo não está mais na conta.') : tr('O servidor do Habblaud World não encontrou o que foi pedido.');
+      return action === 'revoke' ? tr('Este dispositivo não está mais na conta.') : tr('O servidor do PYX World não encontrou o que foi pedido.');
     case 'invalid_json':
     case 'too_large':
     case 'unsupported_media_type':
     case 'method_not_allowed':
-      return tr('O pedido saiu num formato que o servidor não aceita. Atualize o Habblaud e tente de novo.');
+      return tr('O pedido saiu num formato que o servidor não aceita. Atualize o PYX e tente de novo.');
     case 'not_configured':
-      return tr('O Habblaud World não está ligado neste Habblaud (HABBLAUD_WORLD_URL recusada; veja o log do servidor).');
+      return tr('O PYX World não está ligado neste PYX (PYX_WORLD_URL recusada; veja o log do servidor).');
     case 'rate_limited':
       return action === 'export'
         ? tr('Dá para baixar os dados uma vez por dia. Tente de novo amanhã.')
@@ -514,27 +514,27 @@ export function worldErrorText(raw: WorldErrorCode | string, action: WorldAction
     case 'network':
     case 'world_unreachable':
     case 'world_timeout':
-      return tr('O servidor do Habblaud World não respondeu. Tente de novo em instantes.');
+      return tr('O servidor do PYX World não respondeu. Tente de novo em instantes.');
     case 'world_bad_response':
-      return tr('O servidor do Habblaud World respondeu algo inesperado. Tente de novo em instantes.');
+      return tr('O servidor do PYX World respondeu algo inesperado. Tente de novo em instantes.');
     case 'account_deleted':
-      return tr('A conta do Habblaud World foi excluída. O prédio e o perfil saíram do mundo na hora; o resto é apagado do banco em 7 dias e dos backups em até 30.');
+      return tr('A conta do PYX World foi excluída. O prédio e o perfil saíram do mundo na hora; o resto é apagado do banco em 7 dias e dos backups em até 30.');
     case 'storage_failed':
-      return tr('Não deu para gravar a sessão neste computador: ela vale só até o Habblaud reiniciar.');
+      return tr('Não deu para gravar a sessão neste computador: ela vale só até o PYX reiniciar.');
     case 'too_many_streams':
-      return tr('A cidade já está aberta em outras abas do Habblaud. Feche uma delas para abrir aqui.');
+      return tr('A cidade já está aberta em outras abas do PYX. Feche uma delas para abrir aqui.');
     case 'no_stream':
-      return tr('A cena Mundo perdeu a conexão com o Habblaud. Abra a cidade de novo.');
+      return tr('A cena Mundo perdeu a conexão com o PYX. Abra a cidade de novo.');
     case 'not_connected':
-      if (action === 'unblock') return tr('Sem conexão com o Habblaud World agora: desbloquear precisa do prédio aceso ou da cidade aberta.');
-      return tr('Sem conexão com o Habblaud World agora; o Habblaud tenta de novo sozinho.');
+      if (action === 'unblock') return tr('Sem conexão com o PYX World agora: desbloquear precisa do prédio aceso ou da cidade aberta.');
+      return tr('Sem conexão com o PYX World agora; o PYX tenta de novo sozinho.');
     case 'offline':
-      return tr('Sem conexão com o Habblaud.');
+      return tr('Sem conexão com o PYX.');
     case 'forbidden':
     case 'local_only':
-      return tr('A conta do World só pode ser mexida pelo próprio computador, com o Habblaud aberto em localhost.');
+      return tr('A conta do World só pode ser mexida pelo próprio computador, com o PYX aberto em localhost.');
     case 'terminal_off':
-      return tr('A conta do World só pode ser mexida com o Habblaud acessível apenas pelo próprio computador (acesso local, bind 127.0.0.1).');
+      return tr('A conta do World só pode ser mexida com o PYX acessível apenas pelo próprio computador (acesso local, bind 127.0.0.1).');
     case 'invalid':
       switch (action) {
         case 'register':
@@ -561,7 +561,7 @@ export function worldErrorText(raw: WorldErrorCode | string, action: WorldAction
 /**
  * Estado do cartão "Seu prédio" (conta aprovada). Sem personagem o prédio não entra no mundo; fora do mundo ("Sair do
  * mundo") e pausado valem mais do que a conexão (nos dois nenhum pacote sobe); depois, uma parada pedida pelo servidor do
- * mundo (`stopped`, com o motivo); sem conexão aberta, o Habblaud está conectando ou tentando de novo.
+ * mundo (`stopped`, com o motivo); sem conexão aberta, o PYX está conectando ou tentando de novo.
  */
 export type BuildingState = 'connected' | 'reconnecting' | 'paused' | 'stopped' | 'left' | 'no_player';
 
@@ -577,7 +577,7 @@ export function buildingState(b: WorldBuildingStatus | undefined, hasPlayer: boo
 export function buildingStopView(reason: WorldBuildingStop): { label: string; desc: string; toggle: BuildingView['toggle'] } {
   switch (reason) {
     case 'update':
-      return { label: tr('Atualize o Habblaud'), desc: tr('Esta versão do Habblaud não entra mais no mundo. Atualize para o prédio voltar a acender.'), toggle: null };
+      return { label: tr('Atualize o PYX'), desc: tr('Esta versão do PYX não entra mais no mundo. Atualize para o prédio voltar a acender.'), toggle: null };
     case 'other-device':
       return {
         label: tr('Conectado em outro computador'),
@@ -585,11 +585,11 @@ export function buildingStopView(reason: WorldBuildingStop): { label: string; de
         toggle: { action: 'resume', text: tr('Trazer para este computador'), hint: tr('O prédio volta a subir daqui, e o outro computador para de enviar.') },
       };
     case 'banned':
-      return { label: tr('Conta banida'), desc: tr('O Habblaud World baniu esta conta: o prédio saiu do mundo e nada mais sai deste computador.'), toggle: null };
+      return { label: tr('Conta banida'), desc: tr('O PYX World baniu esta conta: o prédio saiu do mundo e nada mais sai deste computador.'), toggle: null };
     case 'suspended':
       return {
         label: tr('Conta suspensa'),
-        desc: tr('Esta conta está suspensa no Habblaud World: o prédio fica apagado e nada sai deste computador.'),
+        desc: tr('Esta conta está suspensa no PYX World: o prédio fica apagado e nada sai deste computador.'),
         toggle: { action: 'resume', text: tr('Tentar de novo'), hint: tr('Se a suspensão já acabou, o prédio volta a acender.') },
       };
     case 'waiting':
@@ -599,7 +599,7 @@ export function buildingStopView(reason: WorldBuildingStop): { label: string; de
     case 'unauthorized':
       return { label: tr('Entre de novo'), desc: tr('O servidor do mundo não reconheceu este computador: entre de novo na conta.'), toggle: null };
     case 'deleted':
-      return { label: tr('Conta excluída'), desc: tr('A conta do Habblaud World foi excluída: o prédio e o perfil saíram do mundo e nada mais sai deste computador.'), toggle: null };
+      return { label: tr('Conta excluída'), desc: tr('A conta do PYX World foi excluída: o prédio e o perfil saíram do mundo e nada mais sai deste computador.'), toggle: null };
   }
 }
 
@@ -613,7 +613,7 @@ export const UPLINK_REJECT_CODES = UPLINK_ACK_ERRORS;
 export function uplinkRejectText(code: string | undefined): string {
   switch (code) {
     case 'schema':
-      return tr('O pacote saiu fora do formato do protocolo. Atualize o Habblaud.');
+      return tr('O pacote saiu fora do formato do protocolo. Atualize o PYX.');
     case 'limits':
       return tr('O escritório passou dos limites do mundo (64 andares, 64 agentes por andar, 256 agentes ou 64 KB).');
     case 'name_pool':
@@ -629,9 +629,9 @@ export function uplinkRejectText(code: string | undefined): string {
     case 'left':
       return tr('A conta saiu do mundo (por este ou por outro computador): nada mais sai até você voltar ao mundo.');
     case 'implausible':
-      return tr('O pacote contradiz o anterior de um jeito que o Habblaud não produz: o mundo o descartou, e o prédio fica com o último aceito. As próximas remessas vão normalmente.');
+      return tr('O pacote contradiz o anterior de um jeito que o PYX não produz: o mundo o descartou, e o prédio fica com o último aceito. As próximas remessas vão normalmente.');
     default:
-      return tr('Um motivo que esta versão do Habblaud não conhece.');
+      return tr('Um motivo que esta versão do PYX não conhece.');
   }
 }
 
@@ -778,7 +778,7 @@ function buildingViewBase(b: WorldBuildingStatus | undefined, hasPlayer: boolean
     case 'reconnecting': {
       const connected = state === 'connected';
       const first = !b?.lastUplinkAt;
-      // Sem conexão e o mundo em manutenção (503 `maintenance`): o Habblaud tenta de novo com espera.
+      // Sem conexão e o mundo em manutenção (503 `maintenance`): o PYX tenta de novo com espera.
       const maintenance = !connected && !!opts.maintenance;
       return {
         state,
@@ -789,7 +789,7 @@ function buildingViewBase(b: WorldBuildingStatus | undefined, hasPlayer: boolean
             ? tr('O mundo está em manutenção; tentamos de novo em instantes.')
             : first
               ? tr('O prédio acende com a primeira remessa.')
-              : tr('Sem conexão com o mundo agora: o Habblaud tenta de novo sozinho. Com 2 minutos sem notícias, o prédio apaga.'),
+              : tr('Sem conexão com o mundo agora: o PYX tenta de novo sozinho. Com 2 minutos sem notícias, o prédio apaga.'),
         stats,
         rejected,
         toggle: { action: 'pause', text: tr('Pausar'), hint: `${tr('Pausar interrompe o envio na hora e apaga o prédio no mundo.')} ${later}` },

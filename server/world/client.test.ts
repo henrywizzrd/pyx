@@ -54,7 +54,7 @@ describe('WorldClient', () => {
       'GET /v1/me auth',
     ]);
     expect(w.requests[3].authorization).toBe(`Bearer ${ver.data.token}`);
-    expect(w.requests.every((r) => r.userAgent === 'Habblaud/9.9.9')).toBe(true);
+    expect(w.requests.every((r) => r.userAgent === 'PYX/9.9.9')).toBe(true);
     // O token nunca vai na URL.
     expect(w.requests.some((r) => r.path.includes(ver.data.token))).toBe(false);
   });

@@ -1,4 +1,4 @@
-// Cena Visita do Habblaud World (PLANO.md, seções 2.5 e 8.4): dentro do prédio de outra pessoa, o escritório dela como
+// Cena Visita do PYX World (PLANO.md, seções 2.5 e 8.4): dentro do prédio de outra pessoa, o escritório dela como
 // ela vê o dela. Montada pela cena da cidade (world/city/index.ts) quando o `building` chega depois do `enter`, e
 // desmontada quando o `pos` diz que estou na rua de novo; o stream da cidade fica aberto o tempo todo (fechado, o
 // servidor local manda `view.off` e o mundo me tira do prédio).

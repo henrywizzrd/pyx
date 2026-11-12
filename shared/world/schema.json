@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://server.habblaud.com/protocol/v1/world-uplink.json",
   "title": "WorldUplink",
-  "description": "Pacote do prédio que sobe do computador para o Habblaud World (WorldUplink em shared/world/protocol.ts; o que sai e o que nunca sai: docs/world/privacidade.md). Escrito à mão e estrito: qualquer campo fora da lista derruba o pacote inteiro. Limites que o JSON Schema não expressa (total de 256 agentes, 64 KB, ids repetidos, nome no pool, peças nas paletas) são conferidos no código do servidor do mundo. Fonte da verdade: este arquivo, no repositório público do Habblaud; o servidor guarda uma cópia exata.",
+  "description": "Pacote do prédio que sobe do computador para o PYX World (WorldUplink em shared/world/protocol.ts; o que sai e o que nunca sai: docs/world/privacidade.md). Escrito à mão e estrito: qualquer campo fora da lista derruba o pacote inteiro. Limites que o JSON Schema não expressa (total de 256 agentes, 64 KB, ids repetidos, nome no pool, peças nas paletas) são conferidos no código do servidor do mundo. Fonte da verdade: este arquivo, no repositório público do PYX; o servidor guarda uma cópia exata.",
   "type": "object",
   "additionalProperties": false,
   "required": ["v", "version", "theme", "floors"],
   "properties": {
     "v": { "const": 1 },
     "version": {
-      "description": "Versão do Habblaud (semver, com pré-lançamento opcional).",
+      "description": "Versão do PYX (semver, com pré-lançamento opcional).",
       "type": "string",
       "maxLength": 32,
       "pattern": "^[0-9]{1,4}\\.[0-9]{1,4}\\.[0-9]{1,4}(-[0-9A-Za-z.-]{1,16})?$"

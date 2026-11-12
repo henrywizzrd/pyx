@@ -1,10 +1,10 @@
-// Preferências da interface, persistidas em localStorage ('habblaud:prefs').
+// Preferências da interface, persistidas em localStorage ('pyx:prefs').
 // Puro: o armazenamento é injetado (testável em node).
 import { DEFAULT_SOUND_SETTINGS, sanitizeSoundSettings, type SoundSettings } from '../audio/scheduler';
 import type { DaylightMode, WorldOptions } from '../world/api';
 import { DEFAULT_WORLD_OPTIONS } from '../world/api';
 
-export const PREFS_KEY = 'habblaud:prefs';
+export const PREFS_KEY = 'pyx:prefs';
 
 export interface UiPrefs {
   showNames: boolean;
@@ -23,7 +23,7 @@ export interface UiPrefs {
   feedOpen: boolean;
   /** Contas ocultas na barra lateral (AccountInfo.id). */
   hiddenAccounts: string[];
-  /** Habblaud World: aviso quando o primeiro visitante entra no seu prédio (a cada conexão). Ligado por padrão. */
+  /** PYX World: aviso quando o primeiro visitante entra no seu prédio (a cada conexão). Ligado por padrão. */
   worldVisitNotify: boolean;
 }
 
@@ -104,11 +104,11 @@ export function safeLocalStorage(): Storage | null {
 
 /**
  * Migração do nome antigo (CodeTown, até a 0.3.2): as chaves eram `codetown:prefs`,
- * `codetown:update-seen`, `codetown.wallets.v1`... e passaram a começar com `habblaud`.
+ * `codetown:update-seen`, `codetown.wallets.v1`... e passaram a começar com `pyx`.
  */
 const LEGACY_NAME = 'codetown';
 const LEGACY_PREFIXES = [`${LEGACY_NAME}:`, `${LEGACY_NAME}.`];
-const NAME = 'habblaud';
+const NAME = 'pyx';
 
 type ListableStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem' | 'key' | 'length'>;
 
